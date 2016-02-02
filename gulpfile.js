@@ -13,7 +13,7 @@ var paths = {
         root: 'dist',
         css: 'dist/css'
     }
-};
+}; 
 
 gulp.task('default', ['watch']);
 
