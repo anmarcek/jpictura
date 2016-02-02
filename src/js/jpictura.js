@@ -45,7 +45,7 @@
         waitForImages: true,
         fadeInItems: false,
         stretchImages: true,
-        centerImages: false,
+        centerImages: true,
         justifyLastRow: false,
         debug: false,
         heightCalculator: heightCalculator
