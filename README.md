@@ -25,7 +25,7 @@ jpictura/
 
 ### Setup
 
-Include jpictura.min.css inside of your head tag and jpictura.min.js just before the closing body tag. Be sure to include jQuery before jpictura.min.js.
+Include ```jpictura.min.css``` inside of your head tag and ```jpictura.min.js``` just before the closing body tag. Be sure to include jQuery before jpictura.min.js.
 
 ```html
 <head>
@@ -34,7 +34,7 @@ Include jpictura.min.css inside of your head tag and jpictura.min.js just before
 </head>
 <body>
         
-    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="http://code.jquery.com/jquery-2.2.0.min.js"></script>
     <script src="jpictura/dist/jpictura.min.js"></script>
 </body>
 ```
@@ -46,12 +46,6 @@ Create a target gallery element with divs inside, one for each image. Skippr tar
     <div class="item"><img src="foo.png" /></div>
 	<div class="item"><img src="bar.png" /></div>
 </div>
-
-<script type="text/javascript">
-	$(function () {
-		$('#my-gallery').jpictura({ itemSpacing: 5, justifyLastRow: false });
-	});
-</script>
 ```
 
 ### Initialization
