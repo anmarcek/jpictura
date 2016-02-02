@@ -1,0 +1,167 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+        <title>jPictura - Test page</title>
+
+        <link rel="stylesheet" href="reset.css" type="text/css">
+        <link rel="stylesheet" href="../src/css/jpictura.css" type="text/css">
+
+        <script type="text/javascript" src="../node_modules/jquery/dist/jquery.min.js"></script>
+
+        <script type="text/javascript" src="../src/js/height-calculator.js"></script>
+        <script type="text/javascript" src="../src/js/jpictura.js"></script>
+
+        <style type="text/css">
+            .gallery {
+                margin: 20px auto;
+                width: 700px;
+            }
+        </style>
+    </head>
+    <body>
+
+        <div id="gallery-1" class="gallery">
+            <div class="item">
+                <img alt="Test picture" src="300x200.png"/>
+            </div>
+            <div class="item">
+                <img alt="Test picture" src="300x200.png"/>
+            </div>
+            <div class="item">
+                <img alt="Test picture" src="300x200.png"/>
+            </div>
+            <div class="item">
+                <img alt="Test picture" src="300x200.png"/>
+            </div>
+            <div class="item">
+                <img alt="Test picture" src="100x600.png"/>
+            </div>
+            <div class="item">
+                <img alt="Test picture" src="300x200.png"/>
+            </div>
+            <div class="item">
+                <img alt="Test picture" src="300x200.png"/>
+            </div>
+            <div class="item">
+                <img alt="Test picture" src="200x400.png"/>
+            </div>
+            <div class="item">
+                <img alt="Test picture" src="200x400.png"/>
+            </div>
+            <div class="item">
+                <img alt="Test picture" src="300x200.png"/>
+            </div>
+            <div class="item">
+                <img alt="Test picture" src="300x200.png"/>
+            </div>
+            <div class="item">
+                <img alt="Test picture" src="100x100.png"/>
+            </div>
+            <div class="item">
+                <img alt="Test picture" src="320x180.png"/>
+            </div>
+            <div class="item">
+                <img alt="Test picture" src="300x200.png"/>
+            </div>
+            <div class="item">
+                <img alt="Test picture" src="600x100.png"/>
+            </div>
+            <div class="item">
+                <img alt="Test picture" src="300x200.png"/>
+            </div>
+            <div class="item">
+                <img alt="Test picture" src="300x200.png"/>
+            </div>
+        </div>
+
+        <div id="gallery-2" class="gallery">
+            <div class="item">
+                <img src="flowers/425x318.jpg" alt="Test picture"/>
+            </div>
+            <div class="item">
+                <img src="flowers/500x500.jpg" alt="Test picture"/>
+            </div>
+            <div class="item">
+                <img src="flowers/500x514.jpg" alt="Test picture"/>
+            </div>
+            <div class="item">
+                <img src="flowers/520x390.jpg" alt="Test picture"/>
+            </div>
+            <div class="item">
+                <img src="flowers/550x344.jpg" alt="Test picture"/>
+            </div>
+            <div class="item">
+                <img src="flowers/736x414.jpg" alt="Test picture"/>
+            </div>
+            <div class="item">
+                <img src="flowers/736x888.jpg" alt="Test picture"/>
+            </div>
+            <div class="item">
+                <img src="flowers/520x390.jpg" alt="Test picture"/>
+            </div>
+            <div class="item">
+                <img src="flowers/736x888.jpg" alt="Test picture"/>
+            </div>
+            <div class="item">
+                <img src="flowers/425x318.jpg" alt="Test picture"/>
+            </div>
+            <div class="item">
+                <img src="flowers/500x500.jpg" alt="Test picture"/>
+            </div>
+            <div class="item">
+                <img src="flowers/520x390.jpg" alt="Test picture"/>
+            </div>
+        </div>
+
+        <div id="gallery-3" class="gallery">
+            <div class="item">
+                <img src="flowers/425x318.jpg" alt="Test picture"/>
+            </div>
+            <div class="item">
+                <img src="flowers/500x500.jpg" alt="Test picture" />
+            </div>
+            <div class="item">
+                <img src="flowers/500x514.jpg" alt="Test picture" />
+            </div>
+            <div class="item">
+                <img src="flowers/520x390.jpg" alt="Test picture" />
+            </div>
+            <div class="item">
+                <img src="flowers/550x344.jpg" alt="Test picture" />
+            </div>
+            <div class="item">
+                <img src="flowers/736x414.jpg" alt="Test picture" />
+            </div>
+            <div class="item">
+                <img src="flowers/736x888.jpg" alt="Test picture" />
+            </div>
+            <div class="item">
+                <img src="flowers/520x390.jpg" alt="Test picture" />
+            </div>
+            <div class="item">
+                <img src="flowers/736x888.jpg" alt="Test picture" />
+            </div>
+            <div class="item">
+                <img src="flowers/425x318.jpg" alt="Test picture" />
+            </div>
+            <div class="item">
+                <img src="flowers/500x500.jpg" alt="Test picture" />
+            </div>
+            <div class="item">
+                <img src="flowers/520x390.jpg" alt="Test picture" />
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            $(function () {
+                $('#gallery-1').jpictura({ itemSpacing: 5, stretchImages: true, centerImages: true, justifyLastRow: true });
+                $('#gallery-2').jpictura({ stretchLastRow: true });
+                $('#gallery-3').jpictura();
+            });
+        </script>
+
+    </body>
+</html>
