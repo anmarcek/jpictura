@@ -28,15 +28,15 @@
 
     function setInitialMinHeight(desiredItemsWidth) {
         var epsilon = 0;
-        var ho = options.optimum;
-        var rMax = options.maxWidthHeightRatio;
+        var ho = options.layout.idealRowHeight;
+        var rMax = options.layout.maxWidthHeightRatio;
         minHeight = desiredItemsWidth / (((desiredItemsWidth - epsilon) / ho) + rMax);
     }
 
     function setInitialMaxHeight(desiredItemsWidth) {
         var epsilon = 0;
-        var ho = options.optimum;
-        var rMax = options.maxWidthHeightRatio;
+        var ho = options.layout.idealRowHeight;
+        var rMax = options.layout.maxWidthHeightRatio;
 
         if (rMax * ho > desiredItemsWidth) {
             if (options.debug) {
@@ -67,15 +67,15 @@
             if (desiredItemsWidth < itemsWidth) {
                 continueApproximation = true;
             }
-            if ((desiredItemsWidth - itemsWidth) > options.guessingAlgorithm.epsilon) {
+            if ((desiredItemsWidth - itemsWidth) > options.algorithm.epsilon) {
                 continueApproximation = true;
             }
-            if ((++i) >= options.guessingAlgorithm.maxIterationCount) {
+            if ((++i) >= options.algorithm.maxIterationCount) {
                 continueApproximation = false;
             }
         } while (continueApproximation);
 
-        if ((i >= options.guessingAlgorithm.maxIterationCount) && (options.debug)) {
+        if ((i >= options.algorithm.maxIterationCount) && (options.debug)) {
             log('Max ' + i + ' iterations reached. Current precision: ' + (desiredItemsWidth - itemsWidth) + '.');
         }
 

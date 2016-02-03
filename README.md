@@ -44,7 +44,7 @@ Create a target gallery element with divs inside, one for each image. Skippr tar
 ```html
 <div id="my-gallery">
     <div class="item"><img src="foo.png" /></div>
-	<div class="item"><img src="bar.png" /></div>
+    <div class="item"><img src="bar.png" /></div>
 </div>
 ```
 
@@ -68,6 +68,86 @@ $(document).ready(function(){
 });
 ```
 
-Full list of options is described below.
+The complete options object looks like this:
 
-### Coming soon.
+```javascript
+var options = {
+    selectors: {
+        item: '.item',
+        image: 'img'
+    },
+    classes: {
+        container: 'jpictura',
+        item: 'jpictura-item',
+        image: 'jpictura-image',
+        lastRow: 'jpictura-last-row',
+        firstInRow: 'jpictura-first-in-row',
+        lastInRow: 'jpictura-last-in-row'
+    },
+    layout: {
+        rowPadding: 0,
+        itemSpacing: 0,
+        applyItemSpacing: true,
+        idealRowHeight: 180,
+        minWidthHeightRatio: 1 / 3,
+        maxWidthHeightRatio: 3,
+        stretchImages: true,
+        allowCropping: true,
+        croppingEpsilon: 3,
+        centerImages: true,
+        justifyLastRow: false
+    },
+    effects: {
+        fadeInItems: false
+    },
+    waitForImages: true,
+    heightCalculator: heightCalculator,
+    algorithm: {
+        epsilon: 0.01,
+        maxIterationCount: 100
+    },
+    debug: false
+};
+```
+
+The options are described in details in the following sections.
+
+### selectors.item
+
+A jQuery selector that is used to locate the gallery items within the container.
+
+#### Example
+
+```html
+<div id="my-gallery">
+    <a href=""><img src="foo.png" /></a>
+    <a href=""><img src="bar.png" /></a>
+</div>
+
+$(document).ready(function(){
+    $("#my-gallery").jpictura({ selectors: { item: 'a' } });
+});
+```
+
+### selectors.image
+
+A jQuery selector that is used to locate the images within the gallery items.
+
+#### Example
+
+```html
+<div id="my-gallery">
+    <div class="item"><img src="ANOTHER IMAGE" /><img class="chosen-image" src="foo.png" /></div>
+    <div class="item"><img src="ANOTHER IMAGE" /><img class="chosen-image" src="bar.png" /></div>
+</div>
+
+$(document).ready(function(){
+    $("#my-gallery").jpictura({ selectors: { image: '.chosen-image' } });
+});
+```
+
+### classes
+
+CSS classes that are automatically applied by the plugin to specific elements.
+
+:warning: The CSS classes are used internally by the plugin's CSS. Chaning one of them may cause the plugin to misbehave.

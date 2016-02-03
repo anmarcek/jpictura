@@ -11,7 +11,7 @@
 (function ($) {
 
     $.fn.jpictura = function (options) {
-        var opts = $.extend({}, $.fn.jpictura.defaults, options);
+        var opts = $.extend(true, {}, $.fn.jpictura.defaults, options);
 
         this.each(function () {
             createGallery($(this), opts);
@@ -24,55 +24,68 @@
     var nameInLowerCase = name.toLowerCase();
 
     $.fn.jpictura.defaults = {
-        containerCssClass: nameInLowerCase,
-        itemCssClass: nameInLowerCase + '-item',
-        lastRowCssClass: nameInLowerCase + '-last-row',
-        firstInRowCssClass: nameInLowerCase + '-first-in-row',
-        lastInRowCssClass: nameInLowerCase + '-last-in-row',
-        imageCssClass: nameInLowerCase + '-image',
-        itemSelector: '.item',
-        imageSelector: 'img',
-        rowPadding: 0,
-        itemSpacing: 0,
-        applyItemSpacing: true,
-        optimum: 180,
-        minWidthHeightRatio: 1 / 3,
-        maxWidthHeightRatio: 3,
-        guessingAlgorithm: {
+        selectors: {
+            item: '.item',
+            image: 'img'
+        },
+        classes: {
+            container: nameInLowerCase,
+            item: nameInLowerCase + '-item',
+            image: nameInLowerCase + '-image',
+            lastRow: nameInLowerCase + '-last-row',
+            firstInRow: nameInLowerCase + '-first-in-row',
+            lastInRow: nameInLowerCase + '-last-in-row'
+        },
+        layout: {
+            rowPadding: 0,
+            itemSpacing: 0,
+            applyItemSpacing: true,
+            idealRowHeight: 180,
+            minWidthHeightRatio: 1 / 3,
+            maxWidthHeightRatio: 3,
+            stretchImages: true,
+            allowCropping: true,
+            croppingEpsilon: 3,
+            centerImages: true,
+            justifyLastRow: false
+        },
+        effects: {
+            fadeInItems: false
+        },
+        waitForImages: true,
+        heightCalculator: heightCalculator,
+        algorithm: {
             epsilon: 0.01,
             maxIterationCount: 100
         },
-        waitForImages: true,
-        fadeInItems: false,
-        stretchImages: true,
-        centerImages: true,
-        justifyLastRow: false,
-        debug: false,
-        heightCalculator: heightCalculator
+        debug: false
     };
 
     $.fn.jpictura.evaluate = function (height, options) {
-        return (Math.abs(height - options.optimum));
+        return (Math.abs(height - options.layout.idealRowHeight));
     };
 
     function createGallery($container, options) {
-        $container.addClass(options.containerCssClass);
-        if (options.fadeInItems) {
-            $container.addClass('fade-in-items');
-        }
-        if (options.stretchImages) {
+        $container.addClass(options.classes.container);
+        if (options.layout.stretchImages) {
             $container.addClass('stretch-images');
         }
-        if (options.centerImages) {
+        if (options.layout.centerImages) {
             $container.addClass('center-images');
         }
+        if (!options.layout.allowCropping) {
+            $container.addClass('disable-cropping-images');
+        }
+        if (options.effects.fadeInItems) {
+            $container.addClass('fade-in-items');
+        }
 
-        var $items = $container.find(options.itemSelector);
-        $items.addClass(options.itemCssClass);
+        var $items = $container.find(options.selectors.item);
+        $items.addClass(options.classes.item);
         $items.addClass('invisible');
 
-        var $images = $items.find(options.imageSelector);
-        $images.addClass(options.imageCssClass);
+        var $images = $items.find(options.selectors.image);
+        $images.addClass(options.classes.image);
 
         waitForImagesIfRequired($container, $items, options, createGalleryFromItems);
     }
@@ -88,7 +101,7 @@
     function waitForImages($container, $items, options, callback) {
         var loadedImagesCount = 0;
 
-        $items.find(options.imageSelector).each(function () {
+        $items.find(options.selectors.image).each(function () {
             var image = new Image();
             image.src = $(this).attr('src');
             image.onload = imageLoadedCallback();
@@ -107,7 +120,7 @@
         var itemsCount = $items.size();
 
         var row = [];
-        var rowWidth = $container.width() - options.rowPadding;
+        var rowWidth = $container.width() - options.layout.rowPadding;
         var heightCalculator = new options.heightCalculator(getItemsWidthForHeight, log, options);
 
         $items.each(function (itemIndex) {
@@ -138,8 +151,8 @@
             }
         });
 
-        var lastRowHeight = (!rowIsFull(row, rowWidth, options) && !options.justifyLastRow)
-            ? options.optimum
+        var lastRowHeight = (!rowIsFull(row, rowWidth, options) && !options.layout.justifyLastRow)
+            ? options.layout.idealRowHeight
             : getRowHeight(row, rowWidth, heightCalculator, options);
         revealRow(row, rowWidth, lastRowHeight, true, options);
 
@@ -150,9 +163,9 @@
     }
 
     function rowIsFull(row, rowWidth, options) {
-        var usedRowWidth = (row.length - 1) * options.itemSpacing;
+        var usedRowWidth = (row.length - 1) * options.layout.itemSpacing;
         for (var i = 0; i < row.length; i++) {
-            usedRowWidth += getItemWidthForHeight(row[i], options.optimum, options);
+            usedRowWidth += getItemWidthForHeight(row[i], options.layout.idealRowHeight, options);
         }
         return (usedRowWidth > rowWidth);
     }
@@ -199,28 +212,36 @@
             var isFirstInRow = $item === row[0];
             var isLastInRow = $item === row[row.length - 1];
 
-            $item.toggleClass(options.lastRowCssClass, isLastRow);
-            $item.toggleClass(options.firstInRowCssClass, isFirstInRow);
-            $item.toggleClass(options.lastInRowCssClass, isLastInRow);
+            $item.toggleClass(options.classes.lastRow, isLastRow);
+            $item.toggleClass(options.classes.firstInRow, isFirstInRow);
+            $item.toggleClass(options.classes.lastInRow, isLastInRow);
 
-            if (options.applyItemSpacing) {
+            if (options.layout.applyItemSpacing) {
                 if (!isLastInRow) {
-                    $item.css('margin-right', options.itemSpacing + 'px');
+                    $item.css('margin-right', options.layout.itemSpacing + 'px');
                 }
 
-                $item.css('margin-bottom', options.itemSpacing + 'px');
+                $item.css('margin-bottom', options.layout.itemSpacing + 'px');
             }
 
-            if (options.centerImages) {
-                var $img = $item.find(options.imageSelector);
+            var imageWidthIfStretchedByHeight = getItemWidthHeightRatio($item, false, options) * height;
+            if (imageWidthIfStretchedByHeight >= itemWidth) {
+                $item.addClass('stretch-by-height');
+            } else {
+                $item.addClass('stretch-by-width');
+            }
+            if (Math.abs(imageWidthIfStretchedByHeight - itemWidth) > options.layout.croppingEpsilon) {
+                $item.addClass('cropped-if-stretched');
+            }
 
-                if (Math.abs(itemWidth - $img.width()) > 1) {
-                    $img.addClass('centered-horizontally');
-                }
+            var $img = $item.find(options.selectors.image);
 
-                if (Math.abs(height - $img.height()) > 1) {
-                    $img.addClass('centered-vertically');
-                }
+            if (Math.abs($img.width() - itemWidth) > 1) {
+                $img.addClass('horizontal-misfit');
+            }
+
+            if (Math.abs($img.height() - height) > 1) {
+                $img.addClass('vertical-misfit');
             }
         }
     }
@@ -238,19 +259,15 @@
     }
 
     function getItemsSpaceWidth(row, rowWidth, options) {
-        return (rowWidth - ((row.length - 1) * options.itemSpacing));
+        return (rowWidth - ((row.length - 1) * options.layout.itemSpacing));
     }
 
     function getItemWidthForHeight($item, height, options) {
-        var width = getItemWidthHeightRatio($item, options) * height;
+        var width = getItemWidthHeightRatio($item, true, options) * height;
         return (width);
     }
 
-    function getItemHeightWidthRatio($item, options) {
-        return (1 / getItemWidthHeightRatio($item, options));
-    }
-
-    function getItemWidthHeightRatio($item, options) {
+    function getItemWidthHeightRatio($item, normalized, options) {
         var ratioDataKey = nameInLowerCase + '-ratio';
         var ratio = $item.data(ratioDataKey);
 
@@ -259,13 +276,16 @@
             $item.data(ratioDataKey, ratio);
         }
 
-        if (ratio <= options.minWidthHeightRatio) {
-            return (options.minWidthHeightRatio);
-        } else if (ratio >= options.maxWidthHeightRatio) {
-            return (options.maxWidthHeightRatio);
-        } else {
-            return (ratio);
+        if (normalized) {
+            if (ratio <= options.layout.minWidthHeightRatio) {
+                return options.layout.minWidthHeightRatio;
+            }
+            if (ratio >= options.layout.maxWidthHeightRatio) {
+                return options.layout.maxWidthHeightRatio;
+            }
         }
+
+        return (ratio);
     }
 
     function calculateItemWidthHeightRatio($item, options)
@@ -274,7 +294,7 @@
         var height = $item.data(nameInLowerCase + '-height');
 
         if (width === undefined || height === undefined) {
-            var $image = $item.find(options.imageSelector);
+            var $image = $item.find(options.selectors.image);
             width = $image.prop('naturalWidth');
             height = $image.prop('naturalHeight');
         }
@@ -283,13 +303,13 @@
         return ratio;
     }
 
-    function getVariables($container) {
-        return $container.data(nameInLowerCase);
-    }
-
-    function setVariables($container, variables) {
-        $container.data(nameInLowerCase, variables);
-    }
+//    function getVariables($container) {
+//        return $container.data(nameInLowerCase);
+//    }
+//
+//    function setVariables($container, variables) {
+//        $container.data(nameInLowerCase, variables);
+//    }
 
     function log(message) {
         window.console && console.log(name + ': ' + message);

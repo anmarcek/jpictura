@@ -19,6 +19,7 @@
 .jpictura .jpictura-item .jpictura-image {
   display: block;
   position: relative;
+  max-width: none;
   max-height: 100%;
 }
 .jpictura.fade-in-items .jpictura-item {
@@ -34,18 +35,29 @@
   background-color: red;
   animation-name: example;
 }
-.jpictura.stretch-images .jpictura-item .jpictura-image {
+.jpictura.stretch-images .jpictura-item.stretch-by-width .jpictura-image {
+  max-height: none;
+  width: 100%;
+}
+.jpictura.stretch-images .jpictura-item.stretch-by-height .jpictura-image {
+  max-width: none;
   height: 100%;
 }
-.jpictura.center-images .jpictura-item .jpictura-image.centered-horizontally {
+.jpictura.stretch-images.disable-cropping-images .jpictura-item.cropped-if-stretched .jpictura-image {
+  max-width: none;
+  max-height: 100%;
+  height: auto;
+  width: auto;
+}
+.jpictura.center-images .jpictura-item .jpictura-image.horizontal-misfit {
   left: 50%;
   transform: translateX(-50%);
 }
-.jpictura.center-images .jpictura-item .jpictura-image.centered-vertically {
+.jpictura.center-images .jpictura-item .jpictura-image.vertical-misfit {
   top: 50%;
   transform: translateY(-50%);
 }
-.jpictura.center-images .jpictura-item .jpictura-image.centered-horizontally.centered-vertically {
+.jpictura.center-images .jpictura-item .jpictura-image.horizontal-misfit.vertical-misfit {
   transform: translate(-50%, -50%);
 }
 @-webkit-keyframes jpictura-fade-in {

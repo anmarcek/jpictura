@@ -22,6 +22,7 @@
         .jpictura-image {
             display: block;
             position: relative;
+            max-width: none;
             max-height: 100%;
         }
     }
@@ -48,8 +49,31 @@
 
     &.stretch-images {
         .jpictura-item {
-            .jpictura-image {
-                height: 100%;
+            &.stretch-by-width {
+                .jpictura-image {
+                    max-height: none;
+                    width: 100%;
+                }
+            }
+
+            &.stretch-by-height {
+                .jpictura-image {
+                    max-width: none;
+                    height: 100%;
+                }
+            }
+        }
+
+        &.disable-cropping-images {
+            .jpictura-item {
+                &.cropped-if-stretched {
+                    .jpictura-image {
+                        max-width: none;
+                        max-height: 100%;
+                        height: auto;
+                        width: auto;
+                    }
+                }
             }
         }
     }
@@ -57,17 +81,17 @@
     &.center-images {
         .jpictura-item {
             .jpictura-image {
-                &.centered-horizontally {
+                &.horizontal-misfit {
                     left: 50%;
                     transform: translateX(-50%);
                 }
 
-                &.centered-vertically{
+                &.vertical-misfit { 
                     top: 50%;
                     transform: translateY(-50%);
                 }
 
-                &.centered-horizontally.centered-vertically {
+                &.horizontal-misfit.vertical-misfit {
                     transform: translate(-50%, -50%);
                 }
             }

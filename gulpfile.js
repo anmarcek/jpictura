@@ -19,7 +19,7 @@ gulp.task('default', ['watch']);
 
 gulp.task('watch', function () {
     gulp.watch(paths.src.js, { interval: 500 }, ['clean', 'copy-js', 'copy-css']);
-    gulp.watch(paths.src.less, { interval: 500 }, ['clean', 'copy-js', 'copy-css']);
+    gulp.watch(paths.src.less, { interval: 500 }, ['clean', 'copy-css', 'copy-css']);
 });
 
 gulp.task('release', ['js', 'css'], function (callback) {
