@@ -112,11 +112,11 @@ var options = {
 
 The options are described in details in the following sections.
 
+***
+
 ### selectors.item
 
 A jQuery selector that is used to locate the gallery items within the container.
-
-#### Example
 
 ```html
 <div id="my-gallery">
@@ -129,11 +129,11 @@ $(document).ready(function(){
 });
 ```
 
+***
+
 ### selectors.image
 
 A jQuery selector that is used to locate the images within the gallery items.
-
-#### Example
 
 ```html
 <div id="my-gallery">
@@ -146,8 +146,21 @@ $(document).ready(function(){
 });
 ```
 
+***
+
 ### classes
 
 CSS classes that are automatically applied by the plugin to specific elements.
 
-:warning: The CSS classes are used internally by the plugin's CSS. Chaning one of them may cause the plugin to misbehave.
+:warning: **The CSS classes are used internally by the plugin's CSS. Chaning one of them may cause the plugin to misbehave.**
+
+| Option | Description |
+| --- | --- |
+| `classes.container` | CSS class applied to the gallery container (the element which the jpictura was applied to). |
+| `classes.item` | CSS class applied to the gallery items. |
+| `classes.image` | CSS class applied to the images. |
+| `classes.lastRow` | CSS class applied to the gallery items in the last row. |
+| `classes.firstInRow` | CSS class applied to first gallery item in each row. |
+| `classes.lastInRow` | CSS class applied to last gallery item in each row. |
+
+***
