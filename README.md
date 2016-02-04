@@ -177,7 +177,7 @@ $(document).ready(function(){
 });
 ```
 
-The spacing is achieved by applying margin to the gallery items. The property is closely related to property `layout.applyRowPadding`. If `layout.applyRowPadding` was false, the margin would not be applied. However the width/height of the gallery items would be still calculated as if the margin was there. This advanced set up allows you to write custom CSS for proper image alignment - e.g. using flex box. 
+The row padding is achieved by applying margin to the gallery items. The property is closely related to property `layout.applyRowPadding`. If `layout.applyRowPadding` was false, the margin would not be applied. However the width/height of the gallery items would be still calculated as if the margin was there. This advanced set up allows you to write custom CSS for proper image alignment - e.g. using flex box. 
 
 ***
 
@@ -194,3 +194,17 @@ $(document).ready(function(){
 ```
 
 The spacing is achieved by applying margin to the gallery items. The property is closely related to property `layout.applyItemSpacing`. If `layout.applyItemSpacing` was false, the margin would not be applied. However the width/height of the gallery items would be still calculated as if the margin was there. This advanced set up allows you to write custom CSS for proper image alignment - e.g. using flex box. 
+
+***
+
+### layout.idealRowHeight
+
+The desired row height. The application will try to arrange the gallery item so the heights of the rows are as close as possible to the `layout.idealRowHeight` value.
+
+![Test](/docs/gallery-4.png)
+
+```javascript
+$(document).ready(function(){
+    $("#my-gallery").jpictura({ layout: { idealRowHeight: 80 } });
+});
+```

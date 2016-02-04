@@ -15,10 +15,24 @@
         <script type="text/javascript" src="../src/js/jpictura.js"></script>
 
         <style type="text/css">
-            .gallery {
-                margin: 20px auto;
-                width: 700px;
+            body {
                 font-family: arial;
+            }
+
+             .gallery {
+                 margin: 20px auto;
+                 width: 700px;
+             }
+
+            .test-gallery {
+                font-weight: bold;
+                color: red;
+            }
+
+            .test-gallery .labelling {
+                display: block;
+                position: absolute;
+                z-index: 5;
             }
         </style>
     </head>
@@ -80,37 +94,37 @@
 
         <div id="gallery-b" class="gallery">
             <div class="item">
-                <img src="real-pictures/400x267.jpg" alt="Test picture"/>
+                <img src="real-pictures/400x267.jpg" alt="Test picture" />
             </div>
             <div class="item">
-                <img src="real-pictures/200x267.jpg" alt="Test picture"/>
+                <img src="real-pictures/200x267.jpg" alt="Test picture" />
             </div>
             <div class="item">
-                <img src="real-pictures/445x100.jpg" alt="Test picture"/>
+                <img src="real-pictures/445x100.jpg" alt="Test picture" />
             </div>
             <div class="item">
-                <img src="real-pictures/200x300.jpg" alt="Test picture"/>
+                <img src="real-pictures/200x300.jpg" alt="Test picture" />
             </div>
             <div class="item">
-                <img src="real-pictures/100x395.jpg" alt="Test picture"/>
+                <img src="real-pictures/100x395.jpg" alt="Test picture" />
             </div>
             <div class="item">
-                <img src="real-pictures/250x375.jpg" alt="Test picture"/>
+                <img src="real-pictures/250x375.jpg" alt="Test picture" />
             </div>
             <div class="item">
-                <img src="real-pictures/100x100.jpg" alt="Test picture"/>
+                <img src="real-pictures/100x100.jpg" alt="Test picture" />
             </div>
             <div class="item">
-                <img src="real-pictures/300x256.jpg" alt="Test picture"/>
+                <img src="real-pictures/300x256.jpg" alt="Test picture" />
             </div>
             <div class="item">
-                <img src="real-pictures/300x300.jpg" alt="Test picture"/>
+                <img src="real-pictures/300x300.jpg" alt="Test picture" />
             </div>
             <div class="item">
-                <img src="real-pictures/300x200.jpg" alt="Test picture"/>
+                <img src="real-pictures/300x200.jpg" alt="Test picture" />
             </div>
             <div class="item">
-                <img src="real-pictures/400x261.jpg" alt="Test picture"/>
+                <img src="real-pictures/400x261.jpg" alt="Test picture" />
             </div>
         </div>
 
@@ -122,7 +136,7 @@
         </script>
 
 
-        <div id="gallery-2" class="gallery" style="width: 240px; border-left: 1px dashed black; border-right: 1px dashed black;">
+        <div id="gallery-2" class="gallery test-gallery" style="width: 240px; border-left: 1px dashed black; border-right: 1px dashed black;">
             <div class="item">
                 <img src="test-pictures/90x60-gray.png" alt="Test picture" />
             </div>
@@ -132,13 +146,12 @@
             <div class="item">
                 <img src="test-pictures/90x60-gray.png" alt="Test picture" />
             </div>
-            <div class="item" style="font-weight: bold; color: red; overflow: visible;">
-                <span style="display: block; position: absolute; right: 95px; top: 20px; z-index: 5; text-align: right;">&gt;</span>
-                <span style="display: block; position: absolute; left: 0; top: 20px; z-index: 5; text-align: left;">&lt; 5px</span>
-                <img src="test-pictures/90x60-gray.png"
-                     alt="Test picture"/>
+            <div class="item" style="overflow: visible;">
+                <span class="labelling" style="right: 95px; top: 20px; text-align: right;">&gt;</span>
+                <span class="labelling" style="left: 0; top: 20px; z-index: 5; text-align: left;">&lt; 5px</span>
+                <img src="test-pictures/90x60-gray.png" alt="Test picture"/>
             </div>
-            <div class="item" style="font-weight: bold; color: red;">
+            <div class="item">
                 <img src="test-pictures/90x60-gray.png" alt="Test picture" />
             </div>
         </div>
@@ -150,7 +163,7 @@
         </script>
 
         
-        <div id="gallery-3" class="gallery" style="width: 230px;">
+        <div id="gallery-3" class="gallery test-gallery" style="width: 230px;">
             <div class="item">
                 <img src="test-pictures/90x60-gray.png" alt="Test picture" />
             </div>
@@ -160,15 +173,13 @@
             <div class="item">
                 <img src="test-pictures/90x60-gray.png" alt="Test picture" />
             </div>
-            <div class="item" style="font-weight: bold; color: red;">
-                <span style="display: block; position: absolute; right: 0; top: 20px; z-index: 5; text-align: right;">5px &gt;</span>
-                <img src="test-pictures/90x60-gray.png"
-                     alt="Test picture"/>
+            <div class="item">
+                <span class="labelling" style="right: 0; top: 20px; text-align: right;">5px &gt;</span>
+                <img src="test-pictures/90x60-gray.png" alt="Test picture" />
             </div>
-            <div class="item" style="font-weight: bold; color: red;">
-                <span style="display: block; position: absolute; left: 0; top: 20px; z-index: 5; text-align: left;">&lt;</span>
-                <img src="test-pictures/90x60-gray.png"
-                     alt="Test picture" />
+            <div class="item">
+                <span class="labelling" style="left: 0; top: 20px; text-align: left;">&lt;</span>
+                <img src="test-pictures/90x60-gray.png" alt="Test picture" />
             </div>
         </div>
 
@@ -179,6 +190,32 @@
         </script>
 
 
+        <div id="gallery-4" class="gallery test-gallery" style="width: 230px;">
+            <div class="item">
+                <img alt="Test picture" src="test-pictures/90x60-gray.png"/>
+            </div>
+            <div class="item">
+                <img alt="Test picture" src="test-pictures/60x90-gray.png"/>
+            </div>
+            <div class="item">
+                <img alt="Test picture" src="test-pictures/90x60-gray.png"/>
+            </div>
+            <div class="item">
+                <span class="labelling" style="width: 100%; left: 0; top: 30px; text-align: center; transform: rotate(-90deg)">76px</span>
+                <span class="labelling" style="width: 100%; left: 0; top: 0; line-height: 0.8em; text-align: center; transform: rotate(-90deg)">&gt;</span>
+                <span class="labelling" style="width: 100%; left: 0; bottom: 0; line-height: 0.8em; text-align: center; transform: rotate(-90deg)">&lt;</span>
+                <img alt="Test picture" src="test-pictures/90x60-gray.png"/>
+            </div>
+            <div class="item">
+                <img alt="Test picture" src="test-pictures/90x60-gray.png"/>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $("#gallery-4").jpictura({ layout: { idealRowHeight: 80 } });
+            });
+        </script>
 
     </body>
 </html>
