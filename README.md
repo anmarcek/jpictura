@@ -208,3 +208,15 @@ $(document).ready(function(){
     $("#my-gallery").jpictura({ layout: { idealRowHeight: 80 } });
 });
 ```
+
+***
+
+### layout.stretchImages
+
+Whether the images should be stretched to fully fill the space of the respective gallery item or not. Stretching an image beyond its actual width/height decreases the image quality.
+
+```javascript
+$(document).ready(function(){
+    $("#my-gallery").jpictura({ layout: { stretchImages: false } });
+});
+```
