@@ -64,7 +64,7 @@ Customize your gallery by passing an options object as a single parameter to the
 
 ```javascript
 $(document).ready(function(){
-    $("#my-gallery").jpictura({ itemSpacing: 5, justifyLastRow: false });
+    $("#my-gallery").jpictura({ layout: { itemSpacing: 5, justifyLastRow: false } });
 });
 ```
 
@@ -86,7 +86,7 @@ var options = {
     },
     layout: {
         rowPadding: 0,
-        itemSpacing: 0,
+        itemSpacing: 5,
         applyItemSpacing: true,
         idealRowHeight: 180,
         minWidthHeightRatio: 1 / 3,
@@ -165,6 +165,22 @@ CSS classes that are automatically applied by the plugin to specific elements.
 
 ***
 
+### layout.rowPadding
+
+Specifies the amount of blank space at the start and at the end of each row.
+
+![Test](/docs/gallery-2.png)
+
+```javascript
+$(document).ready(function(){
+    $("#my-gallery").jpictura({ layout: { rowPadding: 5 } });
+});
+```
+
+The spacing is achieved by applying margin to the gallery items. The property is closely related to property `layout.applyRowPadding`. If `layout.applyRowPadding` was false, the margin would not be applied. However the width/height of the gallery items would be still calculated as if the margin was there. This advanced set up allows you to write custom CSS for proper image alignment - e.g. using flex box. 
+
+***
+
 ### layout.itemSpacing
 
 Specifies the amount of blank space between the gallery items.
@@ -173,6 +189,8 @@ Specifies the amount of blank space between the gallery items.
 
 ```javascript
 $(document).ready(function(){
-    $("#my-gallery").jpictura({ itemSpacing: 5 });
+    $("#my-gallery").jpictura({ layout: { itemSpacing: 5 } });
 });
 ```
+
+The spacing is achieved by applying margin to the gallery items. The property is closely related to property `layout.applyItemSpacing`. If `layout.applyItemSpacing` was false, the margin would not be applied. However the width/height of the gallery items would be still calculated as if the margin was there. This advanced set up allows you to write custom CSS for proper image alignment - e.g. using flex box. 

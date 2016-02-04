@@ -37,9 +37,9 @@
             lastInRow: nameInLowerCase + '-last-in-row'
         },
         layout: {
-            //TODO AnMa Important: Test and document the rowPadding option.
             rowPadding: 0,
-            itemSpacing: 0,
+            applyRowPadding: true,
+            itemSpacing: 5,
             applyItemSpacing: true,
             idealRowHeight: 180,
             minWidthHeightRatio: 1 / 3,
@@ -121,7 +121,7 @@
         var itemsCount = $items.size();
 
         var row = [];
-        var rowWidth = $container.width() - options.layout.rowPadding;
+        var rowWidth = $container.width() - 2 * options.layout.rowPadding;
         var heightCalculator = new options.heightCalculator(getItemsWidthForHeight, log, options);
 
         $items.each(function (itemIndex) {
@@ -217,12 +217,23 @@
             $item.toggleClass(options.classes.firstInRow, isFirstInRow);
             $item.toggleClass(options.classes.lastInRow, isLastInRow);
 
+            if (options.layout.applyRowPadding) {
+                if (isFirstInRow) {
+                    $item.css('margin-left', options.layout.rowPadding + 'px');
+                }
+                if (isLastInRow) {
+                    $item.css('margin-right', options.layout.rowPadding + 'px');
+                }
+            }
+
             if (options.layout.applyItemSpacing) {
                 if (!isLastInRow) {
                     $item.css('margin-right', options.layout.itemSpacing + 'px');
                 }
 
-                $item.css('margin-bottom', options.layout.itemSpacing + 'px');
+                if (!isLastRow) {
+                    $item.css('margin-bottom', options.layout.itemSpacing + 'px');
+                }
             }
 
             var imageWidthIfStretchedByHeight = getItemWidthHeightRatio($item, false, options) * height;
