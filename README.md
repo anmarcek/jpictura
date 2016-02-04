@@ -169,7 +169,7 @@ CSS classes that are automatically applied by the plugin to specific elements.
 
 Specifies the amount of blank space between the gallery items.
 
-![Test](/anmarcek/jpictura/docs/gallery-3.png)
+![Test](/docs/gallery-3.png)
 
 ```javascript
 $(document).ready(function(){
