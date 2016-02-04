@@ -164,3 +164,15 @@ CSS classes that are automatically applied by the plugin to specific elements.
 | `classes.lastInRow` | CSS class applied to last gallery item in each row. |
 
 ***
+
+### layout.itemSpacing
+
+Specifies the amount of blank space between the gallery items.
+
+![Test](/anmarcek/jpictura/docs/gallery-3.png)
+
+```javascript
+$(document).ready(function(){
+    $("#my-gallery").jpictura({ itemSpacing: 5 });
+});
+```

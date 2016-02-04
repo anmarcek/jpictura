@@ -37,6 +37,7 @@
             lastInRow: nameInLowerCase + '-last-in-row'
         },
         layout: {
+            //TODO AnMa Important: Test and document the rowPadding option.
             rowPadding: 0,
             itemSpacing: 0,
             applyItemSpacing: true,

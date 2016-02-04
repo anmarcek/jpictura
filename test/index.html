@@ -18,6 +18,7 @@
             .gallery {
                 margin: 20px auto;
                 width: 700px;
+                font-family: arial;
             }
         </style>
     </head>
@@ -113,14 +114,34 @@
             </div>
         </div>
 
-        <div id="gallery-3" class="gallery">
-            
+        <div id="gallery-3" class="gallery" style="width: 230px;">
+            <div class="item">
+                <img src="test-pictures/90x60-gray.png" alt="Test picture" />
+            </div>
+            <div class="item">
+                <img src="test-pictures/60x90-gray.png" alt="Test picture" />
+            </div>
+            <div class="item">
+                <img src="test-pictures/90x60-gray.png" alt="Test picture" />
+            </div>
+            <div class="item" style="font-weight: bold; color: red;">
+                <span style="display: block; position: absolute; right: 0; top: 20px; z-index: 5; text-align: right;">5px &gt;</span>
+                <img src="test-pictures/90x60-gray.png"
+                     alt="Test picture"/>
+            </div>
+            <div class="item" style="font-weight: bold; color: red;">
+                <span style="display: block; position: absolute; left: 0; top: 20px; z-index: 5; text-align: left;">&lt;</span>
+                <img src="test-pictures/90x60-gray.png"
+                     alt="Test picture" />
+            </div>
         </div>
 
         <script type="text/javascript">
             $(function () {
                 $('#gallery-1').jpictura({ layout: { itemSpacing: 5, stretchImages: true, allowCropping: false, justifyLastRow: false } });
                 $('#gallery-2').jpictura({ layout: { justifyLastRow: true, idealRowHeight: 220 } });
+
+                $("#gallery-3").jpictura({ layout: { itemSpacing: 5, idealRowHeight: 60 } });
             });
         </script>
 
