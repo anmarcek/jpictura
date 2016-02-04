@@ -98,13 +98,13 @@ function heightCalculator(getItemsWidthForHeightFunc, logFunc, opts) {
     }
 }
 /*!
- * jPictura v1.0.9
+ * jPictura v1.1.1
  * https://github.com/anmarcek/jpictura.git
  *
  * Copyright (c) 2014-2016 Anton Marček
  * Released under the MIT license
  *
- * Date: 2016-02-03T08:10:25.491Z
+ * Date: 2016-02-04T12:11:24.715Z
  */
 
 (function ($) {
@@ -137,7 +137,8 @@ function heightCalculator(getItemsWidthForHeightFunc, logFunc, opts) {
         },
         layout: {
             rowPadding: 0,
-            itemSpacing: 0,
+            applyRowPadding: true,
+            itemSpacing: 5,
             applyItemSpacing: true,
             idealRowHeight: 180,
             minWidthHeightRatio: 1 / 3,
@@ -219,7 +220,7 @@ function heightCalculator(getItemsWidthForHeightFunc, logFunc, opts) {
         var itemsCount = $items.size();
 
         var row = [];
-        var rowWidth = $container.width() - options.layout.rowPadding;
+        var rowWidth = $container.width() - 2 * options.layout.rowPadding;
         var heightCalculator = new options.heightCalculator(getItemsWidthForHeight, log, options);
 
         $items.each(function (itemIndex) {
@@ -315,12 +316,23 @@ function heightCalculator(getItemsWidthForHeightFunc, logFunc, opts) {
             $item.toggleClass(options.classes.firstInRow, isFirstInRow);
             $item.toggleClass(options.classes.lastInRow, isLastInRow);
 
+            if (options.layout.applyRowPadding) {
+                if (isFirstInRow) {
+                    $item.css('margin-left', options.layout.rowPadding + 'px');
+                }
+                if (isLastInRow) {
+                    $item.css('margin-right', options.layout.rowPadding + 'px');
+                }
+            }
+
             if (options.layout.applyItemSpacing) {
                 if (!isLastInRow) {
                     $item.css('margin-right', options.layout.itemSpacing + 'px');
                 }
 
-                $item.css('margin-bottom', options.layout.itemSpacing + 'px');
+                if (!isLastRow) {
+                    $item.css('margin-bottom', options.layout.itemSpacing + 'px');
+                }
             }
 
             var imageWidthIfStretchedByHeight = getItemWidthHeightRatio($item, false, options) * height;
