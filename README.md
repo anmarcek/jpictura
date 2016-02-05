@@ -235,6 +235,8 @@ $(document).ready(function(){
 });
 ```
 
+***
+
 ### layout.allowCropping
 
 Images whose aspect ratio is beyond the specified limits (smaller than `layout.minWidthHeightRatio` or bigger than `layout.maxWidthHeightRatio`) might not fit their gallery items very well - in other words, the aspect ratio of the calculated gallery item might differ from the aspect ratio of the contained image. Therefore if the image is stretched to fill in the entire space of its gallery item, the image will be cropped - either at the top/bottom (the image is too high) or at the sides (the image is too wide). To prevent cropping of images with non-standard aspect ratios, set the property `layout.allowCropping` to `false`.
@@ -245,7 +247,7 @@ Images whose aspect ratio is beyond the specified limits (smaller than `layout.m
 
 ```javascript
 $(document).ready(function () {
-    $("#my-gallery").jpictura({ layout: { stretchImages: true, allowCropping: true, idealRowHeight: 60 } });
+    $("#my-gallery").jpictura({ layout: { stretchImages: true, allowCropping: true } });
 });
 ```
 
@@ -255,8 +257,46 @@ $(document).ready(function () {
 
 ```javascript
 $(document).ready(function () {
-    $("#my-gallery").jpictura({ layout: { stretchImages: true, allowCropping: false, idealRowHeight: 60 } });
+    $("#my-gallery").jpictura({ layout: { stretchImages: true, allowCropping: false } });
 });
 ```
 
 :bulb: You may notice that the rectangular red image was stretched to fill in the given space because its aspect ratio is within limits and no cropping occured. The image with canoeists on the other hand was not stretched due to the fact it would be cropped in such a case.
+
+***
+
+### layout.centerImages
+
+Whether the images should be centered within the given space defined by their gallery items or not.
+
+```javascript
+$(document).ready(function () {
+    $("#my-gallery").jpictura({ layout: { centerImages: false } });
+});
+```
+
+***
+
+### layout.justifyLastRow
+
+Whether the images in the last row should be justified (i.e. - stretched to take the full width of the row or not). If the property is set to `false`, the images in the last row may still take the full width of the row if they are wide enough, but they will not be forced to do so if they are not wide enough.
+
+**Without justification**
+
+![Test](/docs/gallery-9.png)
+
+```javascript
+$(document).ready(function () {
+    $("#my-gallery").jpictura({ layout: { justifyLastRow: false } });
+});
+```
+
+**With justification**
+
+![Test](/docs/gallery-10.png)
+
+```javascript
+$(document).ready(function () {
+    $("#my-gallery").jpictura({ layout: { justifyLastRow: true } });
+});
+```
