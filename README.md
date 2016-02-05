@@ -1,6 +1,6 @@
 ﻿# jPictura
 
-jPictura is a simple jQuery plugin for alignment of images.
+jPictura is a simple jQuery plugin for responsive alignment of images.
 
 ## Table of contents
 
@@ -313,6 +313,12 @@ $(document).ready(function () {
     $("#my-gallery").jpictura({ effects: { fadeInItems: true } });
 });
 ```
+
+***
+
+### responsive
+
+If true, the gallery is redrawn every time the window width changes.
 
 ***
 

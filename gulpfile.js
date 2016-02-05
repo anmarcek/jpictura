@@ -6,7 +6,11 @@ var del = require('del');
 var paths = {
     root: '.',
     src: {
-        js: 'src/js/**/*.js',
+        js: [
+            'src/js/helpers.js',
+            'src/js/height-calculator.js',
+            'src/js/jpictura.js'
+        ],
         css: 'src/css',
         less: 'src/css/less/**/*.less'
     },

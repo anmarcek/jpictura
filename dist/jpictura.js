@@ -1,4 +1,42 @@
-function heightCalculator(getItemsWidthForHeightFunc, logFunc, opts) {
+var jpictura = jpictura || {};
+
+jpictura.debounce = function (func, wait, immediate) {
+    var timeout;
+
+    return function () {
+        var context = this;
+        var args = arguments;
+
+        var later = function () {
+            timeout = null;
+            if (!immediate) {
+                func.apply(context, args);
+            }
+        };
+
+        var callNow = immediate && !timeout;
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+        if (callNow) {
+            func.apply(context, args);
+        }
+    };
+};
+
+jpictura.onWindowWidthResize = function (callback) {
+    var $window = $(window);
+    var lastWindowWidth = $window.width();
+    $window.resize(function () {
+        var windowWidth = $window.width();
+        if (lastWindowWidth !== windowWidth) {
+            callback();
+            lastWindowWidth = windowWidth;
+        }
+    });
+};
+var jpictura = jpictura || {};
+
+jpictura.heightCalculator = function (getItemsWidthForHeightFunc, logFunc, opts) {
     var log = logFunc;
     var getItemsWidthForHeight = getItemsWidthForHeightFunc;
     var options = opts;
@@ -98,14 +136,16 @@ function heightCalculator(getItemsWidthForHeightFunc, logFunc, opts) {
     }
 }
 /*!
- * jPictura v1.1.8
+ * jPictura v1.1.9
  * https://github.com/anmarcek/jpictura.git
  *
  * Copyright (c) 2014-2016 Anton Marček
  * Released under the MIT license
  *
- * Date: 2016-02-05T13:55:01.134Z
+ * Date: 2016-02-05T15:14:47.916Z
  */
+
+var jpictura = jpictura || {};
 
 (function ($) {
 
@@ -153,8 +193,9 @@ function heightCalculator(getItemsWidthForHeightFunc, logFunc, opts) {
         effects: {
             fadeInItems: false
         },
+        responsive: true,
         waitForImages: true,
-        heightCalculator: heightCalculator,
+        heightCalculator: jpictura.heightCalculator,
         algorithm: {
             epsilon: 0.01,
             maxIterationCount: 100
@@ -224,6 +265,19 @@ function heightCalculator(getItemsWidthForHeightFunc, logFunc, opts) {
     }
 
     function createGalleryFromItems($container, $items, options) {
+        //TODO AnMa Important: Consider throttle instead of debounce - or make it configurable.
+        var debouncedRedrawGallery = jpictura.debounce(function () {
+            redrawGallery($container, $items, options);
+        }, 250);
+
+        if (options.responsive) {
+            jpictura.onWindowWidthResize(debouncedRedrawGallery);
+        }
+
+        debouncedRedrawGallery();
+    }
+
+    function redrawGallery($container, $items, options) {
         var startTime = new Date().getTime();
 
         var itemsCount = $items.size();
@@ -377,12 +431,8 @@ function heightCalculator(getItemsWidthForHeightFunc, logFunc, opts) {
             return;
         }
 
-        if (isFirstInRow) {
-            $item.css('margin-left', options.layout.rowPadding + 'px');
-        }
-        if (isLastInRow) {
-            $item.css('margin-right', options.layout.rowPadding + 'px');
-        }
+        $item.css('margin-left', (isFirstInRow ? options.layout.rowPadding : 0) + 'px');
+        $item.css('margin-right', (isLastInRow ? options.layout.rowPadding : 0) + 'px');
     }
 
     function addItemSpacingStyles($item, isLastInRow, isLastRow, options) {
@@ -390,36 +440,23 @@ function heightCalculator(getItemsWidthForHeightFunc, logFunc, opts) {
             return;
         }
 
-        if (!isLastInRow) {
-            $item.css('margin-right', options.layout.itemSpacing + 'px');
-        }
-        if (!isLastRow) {
-            $item.css('margin-bottom', options.layout.itemSpacing + 'px');
-        }
+        $item.css('margin-right', (!isLastInRow ? options.layout.itemSpacing : 0) + 'px');
+        $item.css('margin-bottom', (!isLastRow ? options.layout.itemSpacing : 0) + 'px');
     }
 
     function addStretchingClasses($item, itemWidth, itemHeight, options) {
         var imageWidthIfStretchedByHeight = getItemWidthHeightRatio($item, false, options) * itemHeight;
 
-        if (imageWidthIfStretchedByHeight >= itemWidth) {
-            $item.addClass('stretch-by-height');
-        } else {
-            $item.addClass('stretch-by-width');
-        }
+        $item.toggleClass('stretch-by-height', imageWidthIfStretchedByHeight >= itemWidth);
+        $item.toggleClass('stretch-by-width', imageWidthIfStretchedByHeight < itemWidth);
 
-        if (isImageCroppedIfStretched(imageWidthIfStretchedByHeight, itemWidth, options)) {
-            $item.addClass('cropped-if-stretched');
-        }
+        var croppedIfStretched = isImageCroppedIfStretched(imageWidthIfStretchedByHeight, itemWidth, options);
+        $item.toggleClass('cropped-if-stretched', croppedIfStretched);
     }
 
     function addMisfitClasses($img, itemWidth, itemHeight) {
-        if (isImageHorizontallyMisfit($img, itemWidth)) {
-            $img.addClass('horizontal-misfit');
-        }
-
-        if (isImageVerticallyMisfit($img, itemHeight)) {
-            $img.addClass('vertical-misfit');
-        }
+        $img.toggleClass('horizontal-misfit', isImageHorizontallyMisfit($img, itemWidth));
+        $img.toggleClass('vertical-misfit', isImageVerticallyMisfit($img, itemHeight));
     }
 
     function isImageCroppedIfStretched(imageWidthIfStretchedByHeight, itemWidth, options) {
