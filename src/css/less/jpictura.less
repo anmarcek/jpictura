@@ -25,6 +25,12 @@
             max-width: none;
             max-height: 100%;
         }
+
+        &.cropped-if-stretched {
+            .jpictura-image {
+                max-width: 100%;
+            }
+        }
     }
 
     &.fade-in-items {
@@ -35,15 +41,6 @@
             &.invisible {
                 animation: none;
             }
-        }
-
-        div {
-            width: 100px;
-            height: 100px;
-            background-color: red;
-
-            animation-name: example;
-            
         }
     }
 
@@ -68,10 +65,10 @@
             .jpictura-item {
                 &.cropped-if-stretched {
                     .jpictura-image {
-                        max-width: none;
+                        max-width: 100%;
                         max-height: 100%;
-                        height: auto;
                         width: auto;
+                        height: auto;
                     }
                 }
             }

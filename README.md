@@ -213,10 +213,50 @@ $(document).ready(function(){
 
 ### layout.stretchImages
 
-Whether the images should be stretched to fully fill the space of the respective gallery item or not. Stretching an image beyond its actual width/height decreases the image quality.
+Whether the images should be stretched to fully fill the space of the respective gallery item or not. However, stretching an image beyond its actual width/height decreases the image quality.
+
+** Without stretching **
+
+![Test](/docs/gallery-5.png)
 
 ```javascript
 $(document).ready(function(){
     $("#my-gallery").jpictura({ layout: { stretchImages: false } });
 });
 ```
+
+** With stretching **
+
+![Test](/docs/gallery-6.png)
+
+```javascript
+$(document).ready(function(){
+    $("#my-gallery").jpictura({ layout: { stretchImages: true } });
+});
+```
+
+### layout.allowCropping
+
+Images whose aspect ratio is beyond the specified limits (smaller than `layout.minWidthHeightRatio` or bigger than `layout.maxWidthHeightRatio`) might not fit their gallery items very well - in other words, the aspect ratio of the calculated gallery item might differ from the aspect ratio of the contained image. Therefore if the image is stretched to fill in the entire space of its gallery item, the image will be cropped - either at the top/bottom (the image is too high) of at the sides (the image is too wide). To prevent cropping of images with non-standard aspect ratios, set the property `layout.allowCropping` to `false`.
+
+** With cropping **
+
+![Test](/docs/gallery-7.png)
+
+```javascript
+$(document).ready(function () {
+    $("#my-gallery").jpictura({ layout: { stretchImages: true, allowCropping: true, idealRowHeight: 60 } });
+});
+```
+
+** Without cropping **
+
+![Test](/docs/gallery-8.png)
+
+```javascript
+$(document).ready(function () {
+    $("#my-gallery").jpictura({ layout: { stretchImages: true, allowCropping: false, idealRowHeight: 60 } });
+});
+```
+
+:bulb: You may notice that the rectangular red image was stretched to fill in the given space because its aspect ratio is within limits and no cropping occured. The image with canoeists on the other hand was not stretched due to the fact it would be cropped in such a case.
