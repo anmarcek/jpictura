@@ -40,7 +40,7 @@ Include ```jpictura.min.css``` inside of your head tag and ```jpictura.min.js```
 </body>
 ```
 
-Create a target gallery element with divs inside, one for each image. Skippr targets div tags with class ```item``` (can be changed in the options [](#options)) inside of the selected element.
+Create a target gallery element with divs inside, one for each image. jPictura targets div tags with class `item` (can be changed in the options [](#options)) inside of the selected element.
 
 ```html
 <div id="my-gallery">

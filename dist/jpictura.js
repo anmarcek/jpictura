@@ -98,13 +98,13 @@ function heightCalculator(getItemsWidthForHeightFunc, logFunc, opts) {
     }
 }
 /*!
- * jPictura v1.1.6
+ * jPictura v1.1.7
  * https://github.com/anmarcek/jpictura.git
  *
  * Copyright (c) 2014-2016 Anton Marček
  * Released under the MIT license
  *
- * Date: 2016-02-05T10:49:42.211Z
+ * Date: 2016-02-05T11:38:58.480Z
  */
 
 (function ($) {
