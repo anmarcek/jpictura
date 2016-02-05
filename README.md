@@ -40,7 +40,7 @@ Include ```jpictura.min.css``` inside of your head tag and ```jpictura.min.js```
 </body>
 ```
 
-Create a target gallery element with divs inside, one for each image. jPictura targets div tags with class `item` (can be changed in the options [](#options)) inside of the selected element.
+Create a target gallery element with divs inside, one for each image. jPictura targets div tags with class `item` (can be changed in the [options](#options)) inside of the selected element.
 
 ```html
 <div id="my-gallery">
@@ -301,3 +301,52 @@ $(document).ready(function () {
     $("#my-gallery").jpictura({ layout: { justifyLastRow: true } });
 });
 ```
+
+***
+
+### effects.fadeInItems
+
+If true, the gallery items will smoothly fade in once they are loaded - instead of simple appearing on the screen.
+
+```javascript
+$(document).ready(function () {
+    $("#my-gallery").jpictura({ effects: { fadeInItems: true } });
+});
+```
+
+***
+
+### waitForImages
+
+If true, the plugin waits until all images are loaded and only then performs the calculations and displays the gallery. The images cannot be processed any sooner because the knowledge of their nutural widths and heights is crucial.
+
+However it is possible to speed up loading of the gallery if the image dimensions are known. In this case it is possible to apply data parameters on the gallery item HTML tags and specify the image dimensions (in pixels) so the plugin does not have to wait for the images and can start processing the gallery as soon as DOM is ready.
+
+```html
+<div id="my-gallery">
+    <div class="item"><img data-jpictura-width="300" data-jpictura-height="200" src="foo.png" /></div>
+    <div class="item"><img data-jpictura-width="200" data-jpictura-height="300" src="bar.png" /></div>
+</div>
+
+$(document).ready(function () {
+    $("#my-gallery").jpictura({ waitForImages: false });
+});
+```
+
+***
+
+### heightCalculator
+
+This property allows you to supply your own algorthim which is supposed to calculate row height for the given row (array of gallery items which should appear in a single row).
+
+***
+
+### algorithm
+
+Options used by the `heightCalculator` algorithm.
+
+***
+
+### debug
+
+If true, the plugin will log useful messages to the console.

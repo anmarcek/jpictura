@@ -34,7 +34,8 @@
             image: nameInLowerCase + '-image',
             lastRow: nameInLowerCase + '-last-row',
             firstInRow: nameInLowerCase + '-first-in-row',
-            lastInRow: nameInLowerCase + '-last-in-row'
+            lastInRow: nameInLowerCase + '-last-in-row',
+            invisible: nameInLowerCase + '-invisible'
         },
         layout: {
             rowPadding: 0,
@@ -83,7 +84,7 @@
 
         var $items = $container.find(options.selectors.item);
         $items.addClass(options.classes.item);
-        $items.addClass('invisible');
+        $items.addClass(options.classes.invisible);
 
         var $images = $items.find(options.selectors.image);
         $images.addClass(options.classes.image);
@@ -188,82 +189,150 @@
     function revealRow(row, width, height, isLastRow, options) {
         var itemsWidth = getItemsWidthForHeight(row, height, true, options);
         var itemsSpaceWidth = getItemsSpaceWidth(row, width, options);
-        var itemsWidthDelta = itemsWidth - itemsSpaceWidth;
 
-        var rowSortedFromWidest = row.slice(0);
-        rowSortedFromWidest.sort(function ($item1, $item2) {
-            return getItemWidthForHeight($item2, height, options) - getItemWidthForHeight($item1, height, options);
+        var rowInfo = {
+            row: row,
+            width: width,
+            height: height,
+            isLastRow: isLastRow,
+            itemsSpaceWidth: itemsSpaceWidth,
+            itemsWidthDelta: itemsWidth - itemsSpaceWidth,
+            unassignedItemsWidthDelta: itemsWidth - itemsSpaceWidth
+        };
+
+        var rowSortedFromWidestItem = getRowSortedFromWidestItem(row, options);
+        for (var i = 0; i < rowSortedFromWidestItem.length; i++) {
+            revealItem(rowSortedFromWidestItem[i], rowInfo, options);
+        }
+    }
+
+    function getRowSortedFromWidestItem(row, options) {
+        var rowSortedFromWidestItem = row.slice(0);
+
+        rowSortedFromWidestItem.sort(function ($item1, $item2) {
+            return getItemWidthHeightRatio($item2, true, options) - getItemWidthHeightRatio($item1, true, options);
         });
 
-        var unassignedItemsWidthDelta = itemsWidthDelta;
+        return rowSortedFromWidestItem;
+    }
 
-        for (var j = 0; j < rowSortedFromWidest.length; j++) {
-            var $item = rowSortedFromWidest[j];
+    function revealItem($item, rowInfo, options) {
+        var row = rowInfo.row;
 
-            var itemWidth = getItemWidthForHeight($item, height, options);
-            var delta;
-            if (unassignedItemsWidthDelta >= 0) {
-                delta = Math.ceil(itemWidth / itemsSpaceWidth * itemsWidthDelta);
-                if (unassignedItemsWidthDelta < delta) {
-                    delta = unassignedItemsWidthDelta;
-                }
-                unassignedItemsWidthDelta -= delta;
-            } else {
-                delta = 0;
-            }
-            itemWidth = Math.floor(itemWidth) - delta; 
+        var isLastRow = rowInfo.isLastRow;
+        var isFirstInRow = $item === row[0];
+        var isLastInRow = $item === row[row.length - 1];
+        var itemWidth = getItemWidth($item, rowInfo, options);
+        var itemHeight = rowInfo.height;
 
-            $item.width(itemWidth);
-            $item.height(height);
+        var $img = $item.find(options.selectors.image);
 
-            $item.removeClass('invisible');
+        addWidthHeightStyles($item, itemWidth, itemHeight);
+        removeInvisibilityClass($item, options);
+        addGridPositionClasses($item, isLastRow, isFirstInRow, isLastInRow, options);
+        addRowPaddingStyles($item, isFirstInRow, isLastInRow, options);
+        addItemSpacingStyles($item, isLastInRow, isLastRow, options);
+        addStretchingClasses($item, itemWidth, itemHeight, options);
+        addMisfitClasses($img, itemWidth, itemHeight, options);
+    }
 
-            var isFirstInRow = $item === row[0];
-            var isLastInRow = $item === row[row.length - 1];
+    function getItemWidth($item, rowInfo, options) {
+        var rawItemWidth = getItemWidthForHeight($item, rowInfo.height, options);
+        var delta = subtractWidthDeltaForItem(rawItemWidth, rowInfo);
+        var itemWidth = Math.floor(rawItemWidth) - delta;
+        return itemWidth;
+    }
 
-            $item.toggleClass(options.classes.lastRow, isLastRow);
-            $item.toggleClass(options.classes.firstInRow, isFirstInRow);
-            $item.toggleClass(options.classes.lastInRow, isLastInRow);
-
-            if (options.layout.applyRowPadding) {
-                if (isFirstInRow) {
-                    $item.css('margin-left', options.layout.rowPadding + 'px');
-                }
-                if (isLastInRow) {
-                    $item.css('margin-right', options.layout.rowPadding + 'px');
-                }
-            }
-
-            if (options.layout.applyItemSpacing) {
-                if (!isLastInRow) {
-                    $item.css('margin-right', options.layout.itemSpacing + 'px');
-                }
-
-                if (!isLastRow) {
-                    $item.css('margin-bottom', options.layout.itemSpacing + 'px');
-                }
-            }
-
-            var imageWidthIfStretchedByHeight = getItemWidthHeightRatio($item, false, options) * height;
-            if (imageWidthIfStretchedByHeight >= itemWidth) {
-                $item.addClass('stretch-by-height');
-            } else {
-                $item.addClass('stretch-by-width');
-            }
-            if (Math.abs(imageWidthIfStretchedByHeight - itemWidth) > options.layout.croppingEpsilon) {
-                $item.addClass('cropped-if-stretched');
-            }
-
-            var $img = $item.find(options.selectors.image);
-
-            if (Math.abs($img.width() - itemWidth) > 1) {
-                $img.addClass('horizontal-misfit');
-            }
-
-            if (Math.abs($img.height() - height) > 1) {
-                $img.addClass('vertical-misfit');
-            }
+    function subtractWidthDeltaForItem(itemWidth, rowInfo) {
+        if (rowInfo.unassignedItemsWidthDelta <= 0) {
+            return 0;
         }
+
+        var delta = Math.ceil(itemWidth / rowInfo.itemsSpaceWidth * rowInfo.itemsWidthDelta);
+        if (rowInfo.unassignedItemsWidthDelta < delta) {
+            delta = rowInfo.unassignedItemsWidthDelta;
+        }
+
+        rowInfo.unassignedItemsWidthDelta -= delta;
+
+        return delta;            
+    }
+
+    function addWidthHeightStyles($item, itemWidth, itemHeight) {
+        $item.width(itemWidth);
+        $item.height(itemHeight);
+    }
+
+    function removeInvisibilityClass($item, options) {
+        $item.removeClass(options.classes.invisible);
+    }
+
+    function addGridPositionClasses($item, isLastRow, isFirstInRow, isLastInRow, options) {
+        $item.toggleClass(options.classes.lastRow, isLastRow);
+        $item.toggleClass(options.classes.firstInRow, isFirstInRow);
+        $item.toggleClass(options.classes.lastInRow, isLastInRow);
+    }
+
+    function addRowPaddingStyles($item, isFirstInRow, isLastInRow, options) {
+        if (!options.layout.applyRowPadding) {
+            return;
+        }
+
+        if (isFirstInRow) {
+            $item.css('margin-left', options.layout.rowPadding + 'px');
+        }
+        if (isLastInRow) {
+            $item.css('margin-right', options.layout.rowPadding + 'px');
+        }
+    }
+
+    function addItemSpacingStyles($item, isLastInRow, isLastRow, options) {
+        if (!options.layout.applyItemSpacing) {
+            return;
+        }
+
+        if (!isLastInRow) {
+            $item.css('margin-right', options.layout.itemSpacing + 'px');
+        }
+        if (!isLastRow) {
+            $item.css('margin-bottom', options.layout.itemSpacing + 'px');
+        }
+    }
+
+    function addStretchingClasses($item, itemWidth, itemHeight, options) {
+        var imageWidthIfStretchedByHeight = getItemWidthHeightRatio($item, false, options) * itemHeight;
+
+        if (imageWidthIfStretchedByHeight >= itemWidth) {
+            $item.addClass('stretch-by-height');
+        } else {
+            $item.addClass('stretch-by-width');
+        }
+
+        if (isImageCroppedIfStretched(imageWidthIfStretchedByHeight, itemWidth, options)) {
+            $item.addClass('cropped-if-stretched');
+        }
+    }
+
+    function addMisfitClasses($img, itemWidth, itemHeight) {
+        if (isImageHorizontallyMisfit($img, itemWidth)) {
+            $img.addClass('horizontal-misfit');
+        }
+
+        if (isImageVerticallyMisfit($img, itemHeight)) {
+            $img.addClass('vertical-misfit');
+        }
+    }
+
+    function isImageCroppedIfStretched(imageWidthIfStretchedByHeight, itemWidth, options) {
+        return Math.abs(imageWidthIfStretchedByHeight - itemWidth) > options.layout.croppingEpsilon;
+    }
+
+    function isImageHorizontallyMisfit($img, itemWidth) {
+        return Math.abs($img.width() - itemWidth) > 1;
+    }
+
+    function isImageVerticallyMisfit($img, itemHeight) {
+        return Math.abs($img.height() - itemHeight) > 1;
     }
 
     function getItemsWidthForHeight(row, height, floorItemWidths, options) {
@@ -275,7 +344,7 @@
             }
             itemsWidth += itemWidth;
         }
-        return (itemsWidth);
+        return itemsWidth;
     }
 
     function getItemsSpaceWidth(row, rowWidth, options) {
@@ -284,7 +353,7 @@
 
     function getItemWidthForHeight($item, height, options) {
         var width = getItemWidthHeightRatio($item, true, options) * height;
-        return (width);
+        return width;
     }
 
     function getItemWidthHeightRatio($item, normalized, options) {

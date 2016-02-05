@@ -65,61 +65,61 @@
 
 <script type="text/javascript">
     $(function () {
-        $('#my-gallery').jpictura({ layout: { itemSpacing: 0, justifyLastRow: true, idealRowHeight: 200 }, debug: true });
+        $('#my-gallery').jpictura({ layout: { itemSpacing: 0, justifyLastRow: true, idealRowHeight: 200 } });
     });
 </script>
 
 
 <div class="gallery" id="gallery-a">
-    <div class="item">
+    <div class="item" data-jpictura-width="300" data-jpictura-height="200" >
         <img alt="Test picture" src="number-pictures/300x200.png"/>
     </div>
-    <div class="item">
+    <div class="item" data-jpictura-width="300" data-jpictura-height="200">
         <img alt="Test picture" src="number-pictures/300x200.png"/>
     </div>
-    <div class="item">
+    <div class="item" data-jpictura-width="300" data-jpictura-height="200">
         <img alt="Test picture" src="number-pictures/300x200.png"/>
     </div>
-    <div class="item">
+    <div class="item" data-jpictura-width="300" data-jpictura-height="200">
         <img alt="Test picture" src="number-pictures/300x200.png"/>
     </div>
-    <div class="item">
+    <div class="item" data-jpictura-width="100" data-jpictura-height="600">
         <img alt="Test picture" src="number-pictures/100x600.png"/>
     </div>
-    <div class="item">
+    <div class="item" data-jpictura-width="300" data-jpictura-height="200">
         <img alt="Test picture" src="number-pictures/300x200.png"/>
     </div>
-    <div class="item">
+    <div class="item" data-jpictura-width="300" data-jpictura-height="200">
         <img alt="Test picture" src="number-pictures/300x200.png"/>
     </div>
-    <div class="item">
+    <div class="item" data-jpictura-width="200" data-jpictura-height="400">
         <img alt="Test picture" src="number-pictures/200x400.png"/>
     </div>
-    <div class="item">
+    <div class="item" data-jpictura-width="200" data-jpictura-height="400">
         <img alt="Test picture" src="number-pictures/200x400.png"/>
     </div>
-    <div class="item">
+    <div class="item" data-jpictura-width="300" data-jpictura-height="200">
         <img alt="Test picture" src="number-pictures/300x200.png"/>
     </div>
-    <div class="item">
+    <div class="item" data-jpictura-width="300" data-jpictura-height="200">
         <img alt="Test picture" src="number-pictures/300x200.png"/>
     </div>
-    <div class="item">
+    <div class="item" data-jpictura-width="100" data-jpictura-height="100">
         <img alt="Test picture" src="number-pictures/100x100.png"/>
     </div>
-    <div class="item">
+    <div class="item" data-jpictura-width="320" data-jpictura-height="180">
         <img alt="Test picture" src="number-pictures/320x180.png"/>
     </div>
-    <div class="item">
+    <div class="item" data-jpictura-width="300" data-jpictura-height="200">
         <img alt="Test picture" src="number-pictures/300x200.png"/>
     </div>
-    <div class="item">
+    <div class="item" data-jpictura-width="600" data-jpictura-height="100">
         <img alt="Test picture" src="number-pictures/600x100.png"/>
     </div>
-    <div class="item">
+    <div class="item" data-jpictura-width="300" data-jpictura-height="200">
         <img alt="Test picture" src="number-pictures/300x200.png"/>
     </div>
-    <div class="item">
+    <div class="item" data-jpictura-width="300" data-jpictura-height="200">
         <img alt="Test picture" src="number-pictures/300x200.png"/>
     </div>
 </div>
@@ -162,7 +162,7 @@
 
 <script type="text/javascript">
     $(function () {
-        $('#gallery-a').jpictura({ layout: { itemSpacing: 5, stretchImages: true, allowCropping: false, justifyLastRow: false, centerImages: true } });
+        $('#gallery-a').jpictura({ layout: { itemSpacing: 5, stretchImages: true, allowCropping: false, justifyLastRow: false, centerImages: true }, waitForImages: false });
         $('#gallery-b').jpictura({ layout: { itemSpacing: 0, stretchImages: true, allowCropping: true, justifyLastRow: true, idealRowHeight: 220 } });
     });
 </script>

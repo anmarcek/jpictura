@@ -13,7 +13,7 @@
   overflow: hidden;
   /*background: #333333;*/
 }
-.jpictura .jpictura-item.invisible {
+.jpictura .jpictura-item.jpictura-invisible {
   visibility: hidden;
 }
 .jpictura .jpictura-item .jpictura-image {
@@ -29,7 +29,7 @@
   animation-name: jpictura-fade-in;
   animation-duration: 4s;
 }
-.jpictura.fade-in-items .jpictura-item.invisible {
+.jpictura.fade-in-items .jpictura-item.jpictura-invisible {
   animation: none;
 }
 .jpictura.stretch-images .jpictura-item.stretch-by-width .jpictura-image {
