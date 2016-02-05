@@ -262,7 +262,7 @@ $(document).ready(function () {
 });
 ```
 
-:bulb: You may notice that the rectangular red image was stretched to fill in the given space because its aspect ratio is within limits and no cropping occured. The image with canoeists on the other hand was not stretched due to the fact it would be cropped in such a case.
+:bulb: You may notice that the rectangular red image was stretched to fill in the given space because its aspect ratio is within limits and no cropping occured. The image with water polo players on the other hand was not stretched due to the fact it would be cropped in such a case.
 
 ***
 
