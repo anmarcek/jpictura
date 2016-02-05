@@ -4,6 +4,7 @@ var pkg = require('./package.json');
 var del = require('del');
 
 var paths = {
+    root: '.',
     src: {
         js: 'src/js/**/*.js',
         css: 'src/css',
@@ -22,8 +23,15 @@ gulp.task('watch', function () {
     gulp.watch(paths.src.less, { interval: 500 }, ['clean', 'copy-css', 'copy-css']);
 });
 
-gulp.task('release', ['js', 'css'], function (callback) {
+gulp.task('release', ['zip'], function (callback) {
     callback();
+});
+
+gulp.task('zip', ['js', 'css'], function () {
+    return gulp
+        .src(paths.dist.root + '/**')
+        .pipe(plugins.zip(pkg.name + '.zip'))
+        .pipe(gulp.dest(paths.root));
 });
 
 gulp.task('js', ['clean', 'copy-js'], function () {

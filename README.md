@@ -11,6 +11,7 @@ jPictura is a simple jQuery plugin for alignment of images.
 
 ### Installation
 
+* [Download the latest release](/jpictura.zip).
 * Install with [npm](https://www.npmjs.com): `npm install jpictura`.
 
 The following two files have to be used in your solution:

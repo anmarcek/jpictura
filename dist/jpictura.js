@@ -104,7 +104,7 @@ function heightCalculator(getItemsWidthForHeightFunc, logFunc, opts) {
  * Copyright (c) 2014-2016 Anton Marček
  * Released under the MIT license
  *
- * Date: 2016-02-05T08:19:38.917Z
+ * Date: 2016-02-05T09:11:54.688Z
  */
 
 (function ($) {
