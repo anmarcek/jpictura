@@ -102,13 +102,21 @@
     function waitForImages($container, $items, options, callback) {
         var loadedImagesCount = 0;
 
-        $items.find(options.selectors.image).each(function () {
+        $items.each(function () {
+            var $item = $(this);
+            var $image = $item.find(options.selectors.image);
+
             var image = new Image();
-            image.src = $(this).attr('src');
-            image.onload = imageLoadedCallback();
+            image.src = $image.attr('src');
+            $(image).load(function () {
+                imageLoadedCallback($item, image);
+            });
         });
 
-        function imageLoadedCallback() {
+        function imageLoadedCallback($item, image) {
+            var ratio = image.width / image.height;
+            setItemWidthHeightRatio($item, ratio);
+
             if (++loadedImagesCount === $items.size()) {
                 callback($container, $items, options);
             }
@@ -313,6 +321,11 @@
 
         var ratio = width / height;
         return ratio;
+    }
+
+    function setItemWidthHeightRatio($item, ratio) {
+        var ratioDataKey = nameInLowerCase + '-ratio';
+        $item.data(ratioDataKey, ratio);
     }
 
 //    function getVariables($container) {
