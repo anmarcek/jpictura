@@ -38,7 +38,7 @@
         var ho = options.layout.idealRowHeight;
         var rMax = options.layout.maxWidthHeightRatio;
 
-        if (rMax * ho > desiredItemsWidth) {
+        if (rMax * ho >= desiredItemsWidth) {
             if (options.debug) {
                 log("The max width/height ratio " + rMax + " is too big for row width " + desiredItemsWidth + "px.");
             }

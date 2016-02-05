@@ -38,7 +38,7 @@ function heightCalculator(getItemsWidthForHeightFunc, logFunc, opts) {
         var ho = options.layout.idealRowHeight;
         var rMax = options.layout.maxWidthHeightRatio;
 
-        if (rMax * ho > desiredItemsWidth) {
+        if (rMax * ho >= desiredItemsWidth) {
             if (options.debug) {
                 log("The max width/height ratio " + rMax + " is too big for row width " + desiredItemsWidth + "px.");
             }
@@ -98,13 +98,13 @@ function heightCalculator(getItemsWidthForHeightFunc, logFunc, opts) {
     }
 }
 /*!
- * jPictura v1.1.5
+ * jPictura v1.1.6
  * https://github.com/anmarcek/jpictura.git
  *
  * Copyright (c) 2014-2016 Anton Marček
  * Released under the MIT license
  *
- * Date: 2016-02-05T10:22:51.892Z
+ * Date: 2016-02-05T10:49:42.211Z
  */
 
 (function ($) {
