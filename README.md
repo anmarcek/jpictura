@@ -215,7 +215,7 @@ $(document).ready(function(){
 
 Whether the images should be stretched to fully fill the space of the respective gallery item or not. However, stretching an image beyond its actual width/height decreases the image quality.
 
-** Without stretching **
+**Without stretching**
 
 ![Test](/docs/gallery-5.png)
 
@@ -225,7 +225,7 @@ $(document).ready(function(){
 });
 ```
 
-** With stretching **
+**With stretching**
 
 ![Test](/docs/gallery-6.png)
 
@@ -237,9 +237,9 @@ $(document).ready(function(){
 
 ### layout.allowCropping
 
-Images whose aspect ratio is beyond the specified limits (smaller than `layout.minWidthHeightRatio` or bigger than `layout.maxWidthHeightRatio`) might not fit their gallery items very well - in other words, the aspect ratio of the calculated gallery item might differ from the aspect ratio of the contained image. Therefore if the image is stretched to fill in the entire space of its gallery item, the image will be cropped - either at the top/bottom (the image is too high) of at the sides (the image is too wide). To prevent cropping of images with non-standard aspect ratios, set the property `layout.allowCropping` to `false`.
+Images whose aspect ratio is beyond the specified limits (smaller than `layout.minWidthHeightRatio` or bigger than `layout.maxWidthHeightRatio`) might not fit their gallery items very well - in other words, the aspect ratio of the calculated gallery item might differ from the aspect ratio of the contained image. Therefore if the image is stretched to fill in the entire space of its gallery item, the image will be cropped - either at the top/bottom (the image is too high) or at the sides (the image is too wide). To prevent cropping of images with non-standard aspect ratios, set the property `layout.allowCropping` to `false`.
 
-** With cropping **
+**With cropping**
 
 ![Test](/docs/gallery-7.png)
 
@@ -249,7 +249,7 @@ $(document).ready(function () {
 });
 ```
 
-** Without cropping **
+**Without cropping**
 
 ![Test](/docs/gallery-8.png)
 
