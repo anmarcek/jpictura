@@ -1,5 +1,6 @@
 # Development only files
-dpcs/
+docs/
 test/
+demo/
 gulpfile.js
 jpictura.zip

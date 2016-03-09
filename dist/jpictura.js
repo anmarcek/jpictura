@@ -142,11 +142,12 @@ jpictura.heightCalculator = function (getItemsWidthForHeightFunc, logFunc, opts)
  * Copyright (c) 2014-2016 Anton Marček
  * Released under the MIT license
  *
- * Date: 2016-02-05T15:14:47.916Z
+ * Date: 2016-03-09T14:00:04.887Z
  */
 
 var jpictura = jpictura || {};
 
+//TODO AnMa Important: If the gallery is redrawn with bigger preferred row height, the dimensions are not calculated properly.
 (function ($) {
 
     $.fn.jpictura = function (options) {
@@ -209,18 +210,11 @@ var jpictura = jpictura || {};
 
     function createGallery($container, options) {
         $container.addClass(options.classes.container);
-        if (options.layout.stretchImages) {
-            $container.addClass('stretch-images');
-        }
-        if (options.layout.centerImages) {
-            $container.addClass('center-images');
-        }
-        if (!options.layout.allowCropping) {
-            $container.addClass('disable-cropping-images');
-        }
-        if (options.effects.fadeInItems) {
-            $container.addClass('fade-in-items');
-        }
+
+        $container.toggleClass('stretch-images', options.layout.stretchImages);
+        $container.toggleClass('center-images', options.layout.centerImages);
+        $container.toggleClass('disable-cropping-images', !options.layout.allowCropping);
+        $container.toggleClass('fade-in-items', options.effects.fadeInItems);
 
         var $items = $container.find(options.selectors.item);
         $items.addClass(options.classes.item);
@@ -515,15 +509,8 @@ var jpictura = jpictura || {};
 
     function calculateItemWidthHeightRatio($item, options)
     {
-        var width = $item.data(nameInLowerCase + '-width');
-        var height = $item.data(nameInLowerCase + '-height');
-
-        if (width === undefined || height === undefined) {
-            var $image = $item.find(options.selectors.image);
-            width = $image.prop('naturalWidth');
-            height = $image.prop('naturalHeight');
-        }
-
+        var width = getItemNaturalWidth($item, options);
+        var height = getItemNaturalHeight($item, options);
         var ratio = width / height;
         return ratio;
     }
@@ -531,6 +518,32 @@ var jpictura = jpictura || {};
     function setItemWidthHeightRatio($item, ratio) {
         var ratioDataKey = nameInLowerCase + '-ratio';
         $item.data(ratioDataKey, ratio);
+    }
+
+    function getItemNaturalWidth($item, options) {
+        var widthDataKey = nameInLowerCase + '-width';
+        var width = $item.data(widthDataKey);
+
+        if (width === undefined) {
+            var $image = $item.find(options.selectors.image);
+            width = $image.prop('naturalWidth');
+            $item.data(widthDataKey, width);
+        }
+
+        return width;
+    }
+
+    function getItemNaturalHeight($item, options) {
+        var heightDataKey = nameInLowerCase + '-height';
+        var height = $item.data(heightDataKey);
+
+        if (height === undefined) {
+            var $image = $item.find(options.selectors.image);
+            height = $image.prop('naturalHeight');
+            $item.data(heightDataKey, height);
+        }
+
+        return height;
     }
 
 //    function getVariables($container) {

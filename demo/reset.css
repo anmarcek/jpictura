@@ -20,8 +20,12 @@ table, caption, tbody, tfoot, thead, tr, th, td {
 :focus {
 	outline: 0;
 }
+html {
+    font-size: 62.5%;
+    line-height: 1.4;
+}
 body {
-	line-height: 1;
+    font-size: 1.6rem;
 	color: black;
 	background: white;
 }

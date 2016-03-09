@@ -1,0 +1,23 @@
+﻿md-toolbar h1 {
+    margin: auto 20px;
+}
+
+.control-panel {
+    padding: 0 20px 20px 20px;
+}
+
+.control-panel header {
+    /*color: rgb(33, 150, 243);*/
+}
+
+.control-panel md-input-container .md-errors-spacer {
+    min-height: 0;
+}
+
+.control-panel md-input-container {
+    margin-top: 32px;
+}
+
+.control-panel md-switch {
+    /*margin-bottom: 32px;*/
+}

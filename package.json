@@ -1,45 +1,48 @@
 {
-    "name": "jpictura",
-    "version": "1.1.9",
-    "description": "A simple jQuery plugin for responsive alignment of images.",
-    "keywords": [
-        "photo",
-        "gallery",
-        "align",
-        "image",
-        "picture",
-        "resize"
-    ],
-    "license": "MIT",
-    "author": "Anton Marček",
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/anmarcek/jpictura.git"
-    },
-    "dependencies": {
-        "jquery": ">=1.7.2"
-    },
-    "devDependencies": {
-        "gulp": "^3.9.0",
-        "gulp-load-plugins": "^0.10.0",
-        "gulp-uglify": "^1.1.0",
-        "gulp-replace": "^0.5.3",
-        "gulp-rename": "^1.2.2",
-        "gulp-concat": "^2.4.3",
-        "gulp-less": "^3.0.3",
-        "gulp-cssnano": "^2.1.0",
-        "gulp-zip": "^3.1.0",
-        "del": "^1.2.1"
-    },
-    "bugs": {
-        "url": "https://github.com/anmarcek/jpictura/issues"
-    },
-    "homepage": "https://github.com/anmarcek/jpictura#readme",
-    "main": "dist/jpictura.js",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
-    },
-    "directories": {
-        "test": "test"
-    }
+  "name": "jpictura",
+  "version": "1.1.9",
+  "description": "A simple jQuery plugin for responsive alignment of images.",
+  "keywords": [
+    "photo",
+    "gallery",
+    "align",
+    "image",
+    "picture",
+    "resize"
+  ],
+  "license": "MIT",
+  "author": "Anton Marček",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anmarcek/jpictura.git"
+  },
+  "dependencies": {
+    "jquery": ">=1.7.2"
+  },
+  "devDependencies": {
+    "angular": ">=1.3.11",
+    "angular-material": "^1.0.6",
+    "del": "^1.2.1",
+    "gulp": "^3.9.0",
+    "gulp-concat": "^2.4.3",
+    "gulp-cssnano": "^2.1.0",
+    "gulp-less": "^3.0.3",
+    "gulp-load-plugins": "^0.10.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-replace": "^0.5.3",
+    "gulp-uglify": "^1.1.0",
+    "gulp-zip": "^3.1.0",
+    "material-design-icons": "^2.2.0"
+  },
+  "bugs": {
+    "url": "https://github.com/anmarcek/jpictura/issues"
+  },
+  "homepage": "https://github.com/anmarcek/jpictura#readme",
+  "main": "dist/jpictura.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "directories": {
+    "test": "test"
+  }
 }
