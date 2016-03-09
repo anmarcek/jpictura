@@ -8,6 +8,7 @@
 
 .control-panel header {
     /*color: rgb(33, 150, 243);*/
+    padding-top: 15px;
 }
 
 .control-panel md-input-container .md-errors-spacer {
