@@ -1,6 +1,16 @@
-﻿md-toolbar h1 {
-    margin: auto 20px;
+﻿md-toolbar {
+    font-size: 100%;
 }
+
+md-toolbar h1 {
+    margin: auto 20px;
+    font-size: 20px;
+}
+
+    md-toolbar md-input-container {
+        margin-right: 20px;
+        max-width: 300px;
+    }
 
 .control-panel {
     padding: 0 20px 20px 20px;

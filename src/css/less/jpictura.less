@@ -8,6 +8,10 @@
 	    height: 0;
     }
 
+    &.jpictura-off-content-flow {
+        position: fixed;
+    }
+
     .jpictura-item {
         display: block;
         float: left;
@@ -17,6 +21,10 @@
 
         &.jpictura-invisible {
             visibility: hidden;
+        }
+
+        &.jpictura-hidden {
+            display: none;
         }
 
         .jpictura-image {
@@ -39,6 +47,10 @@
             animation-duration: 4s;
 
             &.jpictura-invisible {
+                animation: none;
+            }
+
+            &.jpictura-hidden {
                 animation: none;
             }
         }

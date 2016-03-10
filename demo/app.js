@@ -4,6 +4,13 @@
 
         vm.toggleControlPanel = toggleControlPanel;
 
+        vm.galleries = [
+            { id: 'gallery-number-pictures', name: 'Test schema (local)' },
+            { id: 'gallery-real-pictures', name: 'Landscapes (local)' },
+            { id: 'gallery-pictures-from-net', name: 'Flowers (net)' }
+        ];
+        vm.gallery = vm.galleries[0];
+
         var nameInLowerCase = 'jpictura';
         vm.settings = {
             selectors: {
@@ -36,22 +43,39 @@
             effects: {
                 fadeInItems: false
             },
-            responsive: true,
+            responsive: {
+                enabled: true,
+                onWindowWidthResize: true,
+                onContainerWidthResize: false,
+                delayAlgorithm: 'debounce',
+                delay: 250
+            },
             waitForImages: true,
             heightCalculator: jpictura.heightCalculator,
             algorithm: {
                 epsilon: 0.01,
                 maxIterationCount: 100
             },
-            debug: false
+            debug: true
         };
 
-        $scope.$watch('vm.settings', function () {
+        rebuildGallery();
+
+        $scope.$watch('vm.gallery', function (oldValue, newValue) {
+            if (angular.equals(oldValue, newValue)) {
+                return;
+            }
+            rebuildGallery();
+        });
+        $scope.$watch('vm.settings', function (oldValue, newValue) {
+            if (angular.equals(oldValue, newValue)) {
+                return;
+            }
             rebuildGallery();
         }, true);
 
         function rebuildGallery() {
-            $('#gallery-a').jpictura(vm.settings);
+            $('#' + vm.gallery.id).jpictura(vm.settings);
         }
 
         function toggleControlPanel() {

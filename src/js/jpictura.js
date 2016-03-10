@@ -10,7 +10,10 @@
 
 var jpictura = jpictura || {};
 
-//TODO AnMa Important: If the gallery is redrawn with bigger preferred row height, the dimensions are not calculated properly.
+//TODO AnMa Important: Check if multiple and fast browser window resizes do not lead to a deadlock.
+//TODO AnMa Important: Implement real responsivness which watches the container width instead of the window width.
+//TODO AnMa Important: Turn off responsive event handlers while gallery redraw is in progress.
+//TODO AnMa Important: Update the readme file.
 (function ($) {
 
     $.fn.jpictura = function (options) {
@@ -38,7 +41,9 @@ var jpictura = jpictura || {};
             lastRow: nameInLowerCase + '-last-row',
             firstInRow: nameInLowerCase + '-first-in-row',
             lastInRow: nameInLowerCase + '-last-in-row',
-            invisible: nameInLowerCase + '-invisible'
+            invisible: nameInLowerCase + '-invisible',
+            hidden: nameInLowerCase + '-hidden',
+            offContentFlow: nameInLowerCase + '-off-content-flow'
         },
         layout: {
             rowPadding: 0,
@@ -55,9 +60,16 @@ var jpictura = jpictura || {};
             justifyLastRow: false
         },
         effects: {
+            //TODO AnMa Important: Recheck fade-in functionality.
             fadeInItems: false
         },
-        responsive: true,
+        responsive: {
+            enabled: true,
+            onWindowWidthResize: true,
+            onContainerWidthResize: false,
+            delayAlgorithm: 'debounce',
+            delay: 200
+        },
         waitForImages: true,
         heightCalculator: jpictura.heightCalculator,
         algorithm: {
@@ -81,7 +93,6 @@ var jpictura = jpictura || {};
 
         var $items = $container.find(options.selectors.item);
         $items.addClass(options.classes.item);
-        $items.addClass(options.classes.invisible);
 
         var $images = $items.find(options.selectors.image);
         $images.addClass(options.classes.image);
@@ -122,30 +133,77 @@ var jpictura = jpictura || {};
     }
 
     function createGalleryFromItems($container, $items, options) {
-        //TODO AnMa Important: Consider throttle instead of debounce - or make it configurable.
-        var debouncedRedrawGallery = jpictura.debounce(function () {
-            redrawGallery($container, $items, options);
-        }, 250);
-
-        if (options.responsive) {
-            jpictura.onWindowWidthResize(debouncedRedrawGallery);
+        var delayedRedrawGallery;
+        if (options.responsive.delayAlgorithm === 'debounce') {
+            delayedRedrawGallery = jpictura.debounce(function () {
+                redrawGallery($container, $items, options);
+            }, options.responsive.delay);
+        } else if (options.responsive.delayAlgorithm === 'throttle') {
+            delayedRedrawGallery = jpictura.throttle(function () {
+                redrawGallery($container, $items, options);
+            }, options.responsive.delay, false, true);
+        } else {
+            throw 'The specified delay algorithm \'' + options.responsive.delayAlgorithm + '\' is not supported.';
         }
 
-        debouncedRedrawGallery();
+        jpictura.offWindowWidthResize(nameInLowerCase);
+        if (options.responsive.enabled) {
+            jpictura.onWindowWidthResize(nameInLowerCase, delayedRedrawGallery);
+        }
+
+        delayedRedrawGallery();
     }
 
+    //TODO AnMa Important: Refactor.
     function redrawGallery($container, $items, options) {
         var startTime = new Date().getTime();
 
-        var itemsCount = $items.size();
+        var i = 0;
+        var tryAgain;
+        var containerWidths = [];
 
+        do {
+            $items.addClass(options.classes.invisible);
+            $items.addClass(options.classes.hidden);
+
+            var containerWidthBefore = getContainerWidth($container);
+            containerWidths.push(containerWidthBefore);
+
+            var leaveSpaceForScrollBar = false;
+            if (containerWidths.length >= 3) {
+                var previousContainerWidthBefore = containerWidths[containerWidths.length - 3];
+                var previousContainerWidthAfter = containerWidths[containerWidths.length - 2];
+                if ((previousContainerWidthBefore > previousContainerWidthAfter) && (previousContainerWidthBefore === containerWidthBefore)) {
+                    containerWidthBefore = previousContainerWidthAfter;
+                    leaveSpaceForScrollBar = true;
+                }
+            }
+
+            tryRedrawGallery(containerWidthBefore, $items, options);
+
+            var containerWidthAfter = getContainerWidth($container);
+            containerWidths.push(containerWidthAfter);
+
+            tryAgain = false;
+            if (containerWidthBefore !== containerWidthAfter) {
+                var realContainerWidthBefore = containerWidths[containerWidths.length - 2];
+                tryAgain = !leaveSpaceForScrollBar || realContainerWidthBefore !== containerWidthAfter;
+            }
+        } while (tryAgain && (++i <= 10));
+
+        var endTime = new Date().getTime();
+        if (options.debug) {
+            log('Gallery redrawn in ' + (endTime - startTime) + ' milliseconds.');
+        }
+    }
+
+    function tryRedrawGallery(availableWidth, $items, options) {
         var row = [];
-        var rowWidth = $container.width() - 2 * options.layout.rowPadding;
+        var rowWidth = availableWidth - 2 * options.layout.rowPadding;
         var heightCalculator = new options.heightCalculator(getItemsWidthForHeight, log, options);
 
-        $items.each(function (itemIndex) {
+        $items.each(function () {
             var $item = $(this);
-            var isLastItem = ((itemIndex + 1) === itemsCount);
 
             if (row.length === 0) {
                 row.push($item);
@@ -163,7 +221,7 @@ var jpictura = jpictura || {};
                     if (currentRowPenalty > rowWithNewItemPenalty) {
                         row.push($item);
                     } else {
-                        revealRow(row, rowWidth, currentRowHeight, isLastItem, options);
+                        revealRow(row, rowWidth, currentRowHeight, false, options);
                         row = [];
                         row.push($item);
                     }
@@ -175,11 +233,6 @@ var jpictura = jpictura || {};
             ? options.layout.idealRowHeight
             : getRowHeight(row, rowWidth, heightCalculator, options);
         revealRow(row, rowWidth, lastRowHeight, true, options);
-
-        var endTime = new Date().getTime();
-        if (options.debug) {
-            log('Gallery created in ' + (endTime - startTime) + ' milliseconds.');
-        }
     }
 
     function rowIsFull(row, rowWidth, options) {
@@ -238,7 +291,7 @@ var jpictura = jpictura || {};
         var $img = $item.find(options.selectors.image);
 
         addWidthHeightStyles($item, itemWidth, itemHeight);
-        removeInvisibilityClass($item, options);
+        removeCoveringClasses($item, options);
         addGridPositionClasses($item, isLastRow, isFirstInRow, isLastInRow, options);
         addRowPaddingStyles($item, isFirstInRow, isLastInRow, options);
         addItemSpacingStyles($item, isLastInRow, isLastRow, options);
@@ -273,8 +326,9 @@ var jpictura = jpictura || {};
         $item.height(itemHeight);
     }
 
-    function removeInvisibilityClass($item, options) {
+    function removeCoveringClasses($item, options) {
         $item.removeClass(options.classes.invisible);
+        $item.removeClass(options.classes.hidden);
     }
 
     function addGridPositionClasses($item, isLastRow, isFirstInRow, isLastInRow, options) {
@@ -409,13 +463,9 @@ var jpictura = jpictura || {};
         return height;
     }
 
-//    function getVariables($container) {
-//        return $container.data(nameInLowerCase);
-//    }
-//
-//    function setVariables($container, variables) {
-//        $container.data(nameInLowerCase, variables);
-//    }
+    function getContainerWidth($container) {
+        return $container.width();
+    }
 
     function log(message) {
         window.console && console.log(name + ': ' + message);

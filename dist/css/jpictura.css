@@ -6,6 +6,9 @@
   clear: both;
   height: 0;
 }
+.jpictura.jpictura-off-content-flow {
+  position: fixed;
+}
 .jpictura .jpictura-item {
   display: block;
   float: left;
@@ -15,6 +18,9 @@
 }
 .jpictura .jpictura-item.jpictura-invisible {
   visibility: hidden;
+}
+.jpictura .jpictura-item.jpictura-hidden {
+  display: none;
 }
 .jpictura .jpictura-item .jpictura-image {
   display: block;
@@ -30,6 +36,9 @@
   animation-duration: 4s;
 }
 .jpictura.fade-in-items .jpictura-item.jpictura-invisible {
+  animation: none;
+}
+.jpictura.fade-in-items .jpictura-item.jpictura-hidden {
   animation: none;
 }
 .jpictura.stretch-images .jpictura-item.stretch-by-width .jpictura-image {
