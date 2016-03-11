@@ -74,71 +74,68 @@
                             <ul>
                                 <li>
                                     <md-input-container class="md-block">
-                                        <label>layout.rowPadding</label>
+                                        <label>Row padding (px)</label>
                                         <input ng-model="vm.settings.layout.rowPadding">
                                     </md-input-container>
                                 </li>
                                 <li>
                                     <md-switch ng-model="vm.settings.layout.applyRowPadding" class="md-primary">
-                                        layout.applyRowPadding
+                                        Apply row padding
                                     </md-switch>
                                 </li>
                                 <li>
                                     <md-input-container class="md-block">
-                                        <label>layout.itemSpacing</label>
+                                        <label>Item spacing (px)</label>
                                         <input ng-model="vm.settings.layout.itemSpacing">
                                     </md-input-container>
                                 </li>
                                 <li>
                                     <md-switch ng-model="vm.settings.layout.applyItemSpacing" class="md-primary">
-                                        layout.applyItemSpacing
+                                        Apply item spacing
                                     </md-switch>
                                 </li>
                                 <li>
                                     <md-input-container class="md-block">
-                                        <label>layout.idealRowHeight</label>
+                                        <label>Ideal row height (px)</label>
                                         <input ng-model="vm.settings.layout.idealRowHeight">
                                     </md-input-container>
                                 </li>
                                 <li>
                                     <md-input-container class="md-block">
-                                        <label>layout.minWidthHeightRatio</label>
+                                        <label>Min width/height ratio</label>
                                         <input ng-model="vm.settings.layout.minWidthHeightRatio">
                                     </md-input-container>
                                 </li>
                                 <li>
                                     <md-input-container class="md-block">
-                                        <label>layout.maxWidthHeightRatio</label>
+                                        <label>Max width/height ratio</label>
                                         <input ng-model="vm.settings.layout.maxWidthHeightRatio">
                                     </md-input-container>
                                 </li>
                                 <li>
                                     <md-switch ng-model="vm.settings.layout.stretchImages" class="md-primary">
-                                        layout.stretchImages
+                                        Stretch images
                                     </md-switch>
                                 </li>
                                 <li>
                                     <md-switch ng-model="vm.settings.layout.allowCropping" class="md-primary">
-                                        layout.allowCropping
+                                        Allow cropping
                                     </md-switch>
                                 </li>
                                 <li>
-                                    <h1 class="md-primary">Test</h1>
-                                </li>
-                                <li>
                                     <md-input-container class="md-block">
-                                        <label>layout.croppingEpsilon</label>
+                                        <label>Cropping epsilon (px)</label>
                                         <input ng-model="vm.settings.layout.croppingEpsilon">
                                     </md-input-container>
                                 </li>
                                 <li>
                                     <md-switch ng-model="vm.settings.layout.centerImages" class="md-primary">
-                                        layout.centerImages
+                                        Center images
                                     </md-switch>
                                 </li>
                                 <li>
                                     <md-switch ng-model="vm.settings.layout.justifyLastRow" class="md-primary">
-                                        layout.justifyLastRow
+                                        Justify last row
                                     </md-switch>
                                 </li>
                             </ul>
@@ -148,7 +145,7 @@
                             <ul>
                                 <li>
                                     <md-switch ng-model="vm.settings.effects.fadeInItems" class="md-primary">
-                                        effects.fadeInItems
+                                        Fade-in items
                                     </md-switch>
                                 </li>
                             </ul>
@@ -158,23 +155,23 @@
                             <ul>
                                 <li>
                                     <md-switch ng-model="vm.settings.responsive.enabled" class="md-primary">
-                                        responsive.enabled
+                                        Enabled
                                     </md-switch>
                                 </li>
                                 <li>
                                     <md-switch ng-model="vm.settings.responsive.onWindowWidthResize" class="md-primary">
-                                        responsive.onWindowWidthResize
+                                        On window resize
                                     </md-switch>
                                 </li>
                                 <li>
                                     <md-switch ng-model="vm.settings.responsive.onContainerWidthResize" class="md-primary">
-                                        responsive.onContainerWidthResize
+                                        On container resize
                                     </md-switch>
                                 </li>
                                 <li>
                                     <md-input-container class="md-block">
-                                        <label>responsive.delay</label>
-                                        <input ng-model="vm.settings.responsive.delay">
+                                        <label>Debounce (ms)</label>
+                                        <input ng-model="vm.settings.responsive.debounce">
                                     </md-input-container>
                                 </li>
                             </ul>
@@ -183,18 +180,13 @@
                             <header><span class="md-headline">...</span></header>
                             <ul>
                                 <li>
-                                    <md-switch ng-model="vm.settings.responsive" class="md-primary">
-                                        responsive
-                                    </md-switch>
-                                </li>
-                                <li>
                                     <md-switch ng-model="vm.settings.waitForImages" class="md-primary">
-                                        waitForImages
+                                        Wait for images
                                     </md-switch>
                                 </li>
                                 <li>
                                     <md-switch ng-model="vm.settings.debug" class="md-primary">
-                                        debug
+                                        Debug
                                     </md-switch>
                                 </li>
                             </ul>
@@ -204,13 +196,13 @@
                             <ul>
                                 <li>
                                     <md-input-container class="md-block">
-                                        <label>algorithm.epsilon</label>
+                                        <label>Epsilon (px)</label>
                                         <input ng-model="vm.settings.algorithm.epsilon">
                                     </md-input-container>
                                 </li>
                                 <li>
                                     <md-input-container class="md-block">
-                                        <label>algorithm.maxIterationCount</label>
+                                        <label>Max iteration count</label>
                                         <input ng-model="vm.settings.algorithm.maxIterationCount">
                                     </md-input-container>
                                 </li>

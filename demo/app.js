@@ -47,14 +47,13 @@
                 enabled: true,
                 onWindowWidthResize: true,
                 onContainerWidthResize: false,
-                delayAlgorithm: 'debounce',
-                delay: 250
+                debounce: 250
             },
             waitForImages: true,
             heightCalculator: jpictura.heightCalculator,
             algorithm: {
                 epsilon: 0.01,
-                maxIterationCount: 100
+                maxIterationCount: 50
             },
             debug: true
         };

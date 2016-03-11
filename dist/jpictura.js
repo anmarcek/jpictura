@@ -23,56 +23,6 @@ jpictura.debounce = function (func, wait, immediate) {
     };
 };
 
-jpictura.throttle = function (func, wait, leading, trailing) {
-    var timeout;
-    var context;
-    var args;
-    var result;
-    var previous = 0;
-
-    leading = leading ? leading : false;
-    trailing = trailing ? trailing : true;
-
-    var later = function () {
-        previous = leading === false ? 0 : new Date().getTime();
-        timeout = null;
-        result = func.apply(context, args);
-        if (!timeout) {
-            context = null;
-            args = null;
-        }
-    };
-
-    return function () {
-        var now = new Date().getTime();
-
-        if (!previous && leading === false) {
-            previous = now;
-        }
-        var remaining = wait - (now - previous);
-
-        context = this;
-        args = arguments;
-
-        if (remaining <= 0 || remaining > wait) {
-            if (timeout) {
-                clearTimeout(timeout);
-                timeout = null;
-            }
-            previous = now;
-            result = func.apply(context, args);
-            if (!timeout) {
-                context = null;
-                args = null;
-            }
-        } else if (!timeout && trailing !== false) {
-            timeout = setTimeout(later, remaining);
-        }
-
-        return result;
-    };
-};
-
 jpictura.offWindowWidthResize = function (eventNamespace) {
     $(window).off('.' + eventNamespace);
 };
@@ -196,7 +146,7 @@ jpictura.heightCalculator = function (getItemsWidthForHeightFunc, logFunc, opts)
  * Copyright (c) 2014-2016 Anton Marček
  * Released under the MIT license
  *
- * Date: 2016-03-10T15:37:51.420Z
+ * Date: 2016-03-11T06:15:53.974Z
  */
 
 var jpictura = jpictura || {};
@@ -258,14 +208,13 @@ var jpictura = jpictura || {};
             enabled: true,
             onWindowWidthResize: true,
             onContainerWidthResize: false,
-            delayAlgorithm: 'debounce',
-            delay: 200
+            debounce: 250
         },
         waitForImages: true,
         heightCalculator: jpictura.heightCalculator,
         algorithm: {
             epsilon: 0.01,
-            maxIterationCount: 100
+            maxIterationCount: 50
         },
         debug: false
     };
@@ -324,31 +273,23 @@ var jpictura = jpictura || {};
     }
 
     function createGalleryFromItems($container, $items, options) {
-        var delayedRedrawGallery;
-        if (options.responsive.delayAlgorithm === 'debounce') {
-            delayedRedrawGallery = jpictura.debounce(function () {
-                redrawGallery($container, $items, options);
-            }, options.responsive.delay);
-        } else if (options.responsive.delayAlgorithm === 'throttle') {
-            delayedRedrawGallery = jpictura.throttle(function () {
-                redrawGallery($container, $items, options);
-            }, options.responsive.delay, false, true);
-        } else {
-            throw 'The specified delay algorithm \'' + options.responsive.delayAlgorithm + '\' is not supported.';
-        }
+        var debouncedRedrawGallery = jpictura.debounce(function () {
+            redrawGallery($container, $items, options);
+        }, options.responsive.debounce);
 
         jpictura.offWindowWidthResize(nameInLowerCase);
         if (options.responsive.enabled) {
-            jpictura.onWindowWidthResize(nameInLowerCase, delayedRedrawGallery);
+            jpictura.onWindowWidthResize(nameInLowerCase, debouncedRedrawGallery);
         }
 
-        delayedRedrawGallery();
+        debouncedRedrawGallery();
     }
 
     //TODO AnMa Important: Refactor.
     function redrawGallery($container, $items, options) {
         var startTime = new Date().getTime();
 
+        var maxRedrawTries = 10;
         var i = 0;
         var tryAgain;
         var containerWidths = [];
@@ -380,10 +321,14 @@ var jpictura = jpictura || {};
                 var realContainerWidthBefore = containerWidths[containerWidths.length - 2];
                 tryAgain = !leaveSpaceForScrollBar || realContainerWidthBefore !== containerWidthAfter;
             }
-        } while (tryAgain && (++i <= 10));
+        } while (tryAgain && (++i <= maxRedrawTries));
 
         var endTime = new Date().getTime();
-        if (options.debug) {
+
+        if (i > maxRedrawTries && options.debug) {
+            log('Max redraw tries of ' + maxRedrawTries + 'reached. Gallery redraw failed.');
+        }
+        else if (options.debug) {
             log('Gallery redrawn in ' + (endTime - startTime) + ' milliseconds.');
         }
     }
