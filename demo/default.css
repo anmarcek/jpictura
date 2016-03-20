@@ -32,3 +32,13 @@ md-toolbar h1 {
 .control-panel md-switch {
     /*margin-bottom: 32px;*/
 }
+
+.control-panel .galleries header {
+    margin-bottom: 16px;
+}
+
+.gallery {
+    margin: 20px auto;
+    padding: 0 20px;
+    width: auto;
+}

@@ -1,88 +1,85 @@
 (function (angular) {
-    angular.module('jpicturaDemoApp', ['ngMaterial']).controller('MainController', ['$scope', '$mdSidenav', function ($scope, $mdSidenav) {
-        var vm = this;
+    angular
+        .module('jpicturaDemoApp', ['ngMaterial', 'ngAnimate', 'ngMessages'])
+        .controller('MainController', ['$scope', '$mdSidenav', function ($scope, $mdSidenav) {
+            var vm = this;
 
-        vm.toggleControlPanel = toggleControlPanel;
+            vm.toggleControlPanel = toggleControlPanel;
 
-        vm.galleries = [
-            { id: 'gallery-number-pictures', name: 'Test schema (local)' },
-            { id: 'gallery-real-pictures', name: 'Landscapes (local)' },
-            { id: 'gallery-pictures-from-net', name: 'Flowers (net)' }
-        ];
-        vm.gallery = vm.galleries[0];
+            vm.galleries = [
+                { id: 'gallery-number-pictures', name: 'Test schema (local)', selected: true },
+                { id: 'gallery-real-pictures', name: 'Landscapes (local)', selected: false },
+                { id: 'gallery-pictures-from-net', name: 'Flowers (net)', selected: false }
+            ];
+            vm.isGallerySelected = isGallerySelected;
 
-        var nameInLowerCase = 'jpictura';
-        vm.settings = {
-            selectors: {
-                item: '.item',
-                image: 'img'
-            },
-            classes: {
-                container: nameInLowerCase,
-                item: nameInLowerCase + '-item',
-                image: nameInLowerCase + '-image',
-                lastRow: nameInLowerCase + '-last-row',
-                firstInRow: nameInLowerCase + '-first-in-row',
-                lastInRow: nameInLowerCase + '-last-in-row',
-                invisible: nameInLowerCase + '-invisible'
-            },
-            layout: {
-                rowPadding: 0,
-                applyRowPadding: true,
-                itemSpacing: 5,
-                applyItemSpacing: true,
-                idealRowHeight: 180,
-                minWidthHeightRatio: 1 / 3,
-                maxWidthHeightRatio: 3,
-                stretchImages: true,
-                allowCropping: true,
-                croppingEpsilon: 3,
-                centerImages: true,
-                justifyLastRow: false
-            },
-            effects: {
-                fadeInItems: false
-            },
-            responsive: {
-                enabled: true,
-                onWindowWidthResize: true,
-                onContainerWidthResize: false,
-                debounce: 250
-            },
-            waitForImages: true,
-            heightCalculator: jpictura.heightCalculator,
-            algorithm: {
-                epsilon: 0.01,
-                maxIterationCount: 50
-            },
-            debug: true
-        };
+            var presets = {};
+            presets.defaultSettings = $.fn.jpictura.defaults;
+            presets.noSpacing = angular.merge({}, presets.defaultSettings, {
+                layout: {
+                    itemSpacing: 0
+                }
+            });
 
-        rebuildGallery();
+            vm.presets = [
+                { id: 'custom', name: 'Custom settings', settings: null },
+                { id: 'default-settings', name: 'Default settings', settings: presets.defaultSettings },
+                { id: 'no-spacing', name: 'No spacing', settings: presets.noSpacing }
+            ];
+            vm.selectedPreset = vm.presets[1];
 
-        $scope.$watch('vm.gallery', function (oldValue, newValue) {
-            if (angular.equals(oldValue, newValue)) {
-                return;
-            }
+            $scope.$watch('vm.galleries', function (oldValue, newValue) {
+                if (angular.equals(oldValue, newValue)) {
+                    return;
+                }
+
+                rebuildGallery();
+            });
+
+            $scope.$watch('vm.selectedPreset', function (oldValue, newValue) {
+                if (vm.selectedPreset.settings !== null) {
+                    vm.settings = angular.copy(vm.selectedPreset.settings);
+                }
+            });
+
+            $scope.$watch('vm.settings', function (oldValue, newValue) {
+                if (angular.equals(oldValue, newValue)) {
+                    return;
+                }
+
+                if (vm.selectedPreset.settings !== null && !angular.equals(vm.settings, vm.selectedPreset.settings)) {
+                    vm.selectedPreset = vm.presets[0];
+                }
+
+                rebuildGallery();
+            }, true);
+
             rebuildGallery();
-        });
-        $scope.$watch('vm.settings', function (oldValue, newValue) {
-            if (angular.equals(oldValue, newValue)) {
-                return;
+
+            function isGallerySelected(id) {
+                var result = false;
+
+                vm.galleries.forEach(function (gallery) {
+                    if (gallery.id === id && gallery.selected) {
+                        result = true;
+                    }
+                });
+
+                return result;
             }
-            rebuildGallery();
-        }, true);
 
-        function rebuildGallery() {
-            $('#' + vm.gallery.id).jpictura(vm.settings);
-        }
+            function rebuildGallery() {
+                $('.gallery').jpictura(vm.settings);
+            }
 
-        function toggleControlPanel() {
-            $mdSidenav('left').toggle();
-        }
-    }]).config(['$mdThemingProvider', function ($mdThemingProvider) {
-        $mdThemingProvider.theme('docs-dark')
-            .primaryPalette('blue')
-            .dark();
-    }]);
+            function toggleControlPanel() {
+                $mdSidenav('left').toggle();
+            }
+        }])
+        .config(['$mdThemingProvider', function ($mdThemingProvider) {
+            $mdThemingProvider
+                .theme('docs-dark')
+                .primaryPalette('blue')
+                .dark();
+        }]);
 })(angular);
