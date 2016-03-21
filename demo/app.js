@@ -79,7 +79,7 @@
         .config(['$mdThemingProvider', function ($mdThemingProvider) {
             $mdThemingProvider
                 .theme('docs-dark')
-                .primaryPalette('blue')
+                .primaryPalette('lime')
                 .dark();
         }]);
 })(angular);
