@@ -3,8 +3,16 @@
 }
 
 md-toolbar h1 {
-    margin: auto 20px;
+    margin: 20px 20px 15px 20px;
     font-size: 20px;
+}
+
+md-toolbar h1 img {
+    display: block;
+}
+
+md-toolbar .md-button.md-icon-button {
+    margin: auto 12px;
 }
 
     md-toolbar md-input-container {
@@ -31,4 +39,18 @@ md-toolbar h1 {
 
 .control-panel md-switch {
     /*margin-bottom: 32px;*/
+}
+
+.control-panel .galleries header {
+    margin-bottom: 16px;
+}
+
+.md-locked-open .control-panel .galleries header {
+    padding-top: 0;
+}
+
+.gallery {
+    margin: 20px auto;
+    padding: 0 20px;
+    width: auto;
 }

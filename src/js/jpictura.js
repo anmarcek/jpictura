@@ -10,8 +10,6 @@
 
 var jpictura = jpictura || {};
 
-//TODO AnMa Important: Implement real responsivness which watches the container width instead of the window width.
-//TODO AnMa Important: Turn off responsive event handlers while gallery redraw is in progress.
 //TODO AnMa Important: Update the readme file.
 //TODO AnMa Important: Add show code functionality to demo page.
 //TODO AnMa Important: Add angular and polymer support and split the solution.
@@ -68,8 +66,9 @@ var jpictura = jpictura || {};
         responsive: {
             enabled: true,
             onWindowWidthResize: true,
-            onContainerWidthResize: false,
-            debounce: 250
+            onContainerWidthResize: true,
+            containerResizeInterval: 50,
+            debounce: 200
         },
         waitForImages: true,
         heightCalculator: jpictura.heightCalculator,
@@ -138,16 +137,39 @@ var jpictura = jpictura || {};
             redrawGallery($container, $items, options);
         }, options.responsive.debounce);
 
-        jpictura.offWindowWidthResize(nameInLowerCase);
-        if (options.responsive.enabled) {
-            jpictura.onWindowWidthResize(nameInLowerCase, debouncedRedrawGallery);
-        }
+        applyResponsiveEventHandlers(debouncedRedrawGallery, $container, options);
 
         debouncedRedrawGallery();
     }
 
     //TODO AnMa Important: Refactor.
+    function applyResponsiveEventHandlers(handler, $container, options) {
+        jpictura.offWindowWidthResize(nameInLowerCase);
+        if (options.responsive.enabled && options.responsive.onWindowWidthResize) {
+            jpictura.onWindowWidthResize(nameInLowerCase, handler);
+        }
+
+        var intervalDataKey = nameInLowerCase + '-resize-interval';
+        var containerResizeInterval = $container.data(intervalDataKey);
+        clearInterval(containerResizeInterval);
+        $container.data(intervalDataKey, null);
+        if(options.responsive.enabled && options.responsive.onContainerWidthResize) {
+            var containerWidth = getContainerWidth($container);
+            containerResizeInterval = setInterval(function() {
+                var newContainerWidth = getContainerWidth($container);
+                if(newContainerWidth !== containerWidth) {
+                    containerWidth = newContainerWidth;
+                    handler();
+                }
+            }, options.responsive.containerResizeInterval);
+            $container.data(intervalDataKey, containerResizeInterval);
+        }
+    }
+
+    //TODO AnMa Important: Refactor.
     function redrawGallery($container, $items, options) {
+        setRedrawInProgress($container, 0);
+
         var startTime = new Date().getTime();
 
         var maxRedrawTries = 10;
@@ -192,6 +214,25 @@ var jpictura = jpictura || {};
         else if (options.debug) {
             log('Gallery redrawn in ' + (endTime - startTime) + ' milliseconds.');
         }
+
+        setRedrawInProgress($container, null);
+    }
+
+    function isRedrawInProgress($container) {
+        var progress = getRedrawProgress($container);
+        return progress !== undefined && progress !== null;
+    }
+
+    function getRedrawProgress($container) {
+        return $container.data(getRedrawProgressDataKey());
+    }
+
+    function setRedrawInProgress($container, progress) {
+        $container.data(getRedrawProgressDataKey(), progress);
+    }
+
+    function getRedrawProgressDataKey() {
+        return nameInLowerCase + '-redraw-progress';
     }
 
     function tryRedrawGallery(availableWidth, $items, options) {
@@ -242,8 +283,7 @@ var jpictura = jpictura || {};
 
     function getRowHeight(row, rowWidth, heightCalculator, options) {
         var desiredItemsWidth = getItemsSpaceWidth(row, rowWidth, options);
-        var height = heightCalculator.getHeight(row, desiredItemsWidth);
-        return height;
+        return heightCalculator.getHeight(row, desiredItemsWidth);
     }
 
     function revealRow(row, width, height, isLastRow, options) {
@@ -299,8 +339,7 @@ var jpictura = jpictura || {};
     function getItemWidth($item, rowInfo, options) {
         var rawItemWidth = getItemWidthForHeight($item, rowInfo.height, options);
         var delta = subtractWidthDeltaForItem(rawItemWidth, rowInfo);
-        var itemWidth = Math.floor(rawItemWidth) - delta;
-        return itemWidth;
+        return Math.floor(rawItemWidth) - delta;
     }
 
     function subtractWidthDeltaForItem(itemWidth, rowInfo) {
@@ -335,21 +374,33 @@ var jpictura = jpictura || {};
     }
 
     function addRowPaddingStyles($item, isFirstInRow, isLastInRow, options) {
-        if (!options.layout.applyRowPadding) {
-            return;
+        var margins = {
+            left: '',
+            right: ''
+        };
+
+        if (options.layout.applyRowPadding) {
+            margins.left = (isFirstInRow ? options.layout.rowPadding : 0) + 'px';
+            margins.right = (isLastInRow ? options.layout.rowPadding : 0) + 'px';
         }
 
-        $item.css('margin-left', (isFirstInRow ? options.layout.rowPadding : 0) + 'px');
-        $item.css('margin-right', (isLastInRow ? options.layout.rowPadding : 0) + 'px');
+        $item.css('margin-left', margins.left);
+        $item.css('margin-right', margins.right);
     }
 
     function addItemSpacingStyles($item, isLastInRow, isLastRow, options) {
-        if (!options.layout.applyItemSpacing) {
-            return;
+        var margins = {
+            right: '',
+            bottom: ''
+        };
+
+        if (options.layout.applyItemSpacing) {
+            margins.right = (!isLastInRow ? options.layout.itemSpacing : 0) + 'px';
+            margins.bottom = (!isLastRow ? options.layout.itemSpacing : 0) + 'px';
         }
 
-        $item.css('margin-right', (!isLastInRow ? options.layout.itemSpacing : 0) + 'px');
-        $item.css('margin-bottom', (!isLastRow ? options.layout.itemSpacing : 0) + 'px');
+        $item.css('margin-right', margins.right);
+        $item.css('margin-bottom', margins.bottom);
     }
 
     function addStretchingClasses($item, itemWidth, itemHeight, options) {
@@ -396,8 +447,7 @@ var jpictura = jpictura || {};
     }
 
     function getItemWidthForHeight($item, height, options) {
-        var width = getItemWidthHeightRatio($item, true, options) * height;
-        return width;
+        return getItemWidthHeightRatio($item, true, options) * height;
     }
 
     function getItemWidthHeightRatio($item, normalized, options) {
@@ -425,8 +475,7 @@ var jpictura = jpictura || {};
     {
         var width = getItemNaturalWidth($item, options);
         var height = getItemNaturalHeight($item, options);
-        var ratio = width / height;
-        return ratio;
+        return width / height;
     }
 
     function setItemWidthHeightRatio($item, ratio) {

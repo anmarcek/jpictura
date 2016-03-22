@@ -18,64 +18,70 @@
 	<script src="../node_modules/angular-aria/angular-aria.js"></script>
 	<script src="../node_modules/angular-animate/angular-animate.js"></script>
     <script src="../node_modules/angular-material/angular-material.js"></script>
+    <script src="../node_modules/angular-messages/angular-messages.js"></script>
 
     <script src="app.js" type="text/javascript"></script>
     <script src="../dist/jpictura.js" type="text/javascript"></script>
-
-    <style type="text/css">
-        .gallery {
-            margin: 20px auto;
-            padding: 0 20px;
-            width: auto;
-        }
-
-        .test-gallery {
-            font-weight: bold;
-            color: red;
-        }
-
-        .test-gallery .labelling {
-            display: block;
-            position: absolute;
-            z-index: 5;
-        }
-    </style>
 </head>
 
 <body ng-app="jpicturaDemoApp" ng-controller="MainController as vm" ng-cloak layout="column">
 
     <md-toolbar layout="row">
         <md-content md-theme="docs-dark" flex layout="row">
-            <md-button class="menu" hide-gt-sm ng-click="vm.toggleControlPanel()">
+            <md-button class="md-icon-button menu" hide-gt-sm ng-click="vm.toggleControlPanel()">
                 <md-icon md-font-set="material-icons">menu</md-icon>
             </md-button>
-            <h1>jPictura</h1>
+            <h1 flexlayout-align="center"><img src="logo.png" class="logo"></h1>
             <div flex layout="row" layout-align="end">
-                <md-input-container flex>
-                    <md-select ng-model="vm.gallery">
-                        <md-option ng-repeat="galleryx in vm.galleries" ng-value="galleryx">
-                            {{galleryx.name}}
-                        </md-option>
-                    </md-select>
-                </md-input-container>
+                <md-button class="md-icon-button code" ng-click="vm.toggleControlPanel()">
+                    <md-icon md-font-set="material-icons">code</md-icon>
+                </md-button>
             </div>
         </md-content>
     </md-toolbar>
 
-    <div flex layout="row" >
+    <div flex layout="row">
 
         <md-sidenav md-is-locked-open="$mdMedia('gt-sm')" md-component-id="left" layout="column">
 
             <md-content md-theme="docs-dark" flex class="control-panel">
-                <form>
+                <form name="controlsForm">
                     <fieldset layout="column">
+                        <section class="galleries">
+                            <header><span class="md-headline">Galleries</span></header>
+                            <ul>
+                                <li ng-repeat="gallery in vm.galleries">
+                                    <md-checkbox ng-model="gallery.selected" class="md-primary">
+                                        {{ gallery.name }}
+                                    </md-checkbox>
+                                </li>
+                            </ul>
+                        </section>
+                        <section>
+                            <ul>
+                                <li>
+                                    <md-input-container class="md-block">
+                                        <label>Preset</label>
+                                        <md-select ng-model="vm.selectedPreset">
+                                            <md-option ng-repeat="preset in vm.presets" ng-value="preset">
+                                                {{preset.name}}
+                                            </md-option>
+                                        </md-select>
+                                    </md-input-container>
+                                </li>
+                            </ul>
+                        </section>
                         <section>
                             <header><span class="md-headline">Layout</span></header>
                             <ul>
                                 <li>
                                     <md-input-container class="md-block">
                                         <label>Row padding (px)</label>
-                                        <input ng-model="vm.settings.layout.rowPadding">
+                                        <input type="number" required min="0" name="rowPadding" ng-model="vm.settings.layout.rowPadding">
+                                        <div ng-messages="controlsForm.rowPadding.$error" role="alert" multiple>
+                                            <div ng-message="required" class="my-message">You must supply a number.</div>
+                                            <div ng-message="min" class="my-message">The minimum value is 0.</div>
+                                        </div>
                                     </md-input-container>
                                 </li>
                                 <li>
@@ -86,7 +92,11 @@
                                 <li>
                                     <md-input-container class="md-block">
                                         <label>Item spacing (px)</label>
-                                        <input ng-model="vm.settings.layout.itemSpacing">
+                                        <input type="number" required min="0" name="itemSpacing" ng-model="vm.settings.layout.itemSpacing">
+                                        <div ng-messages="controlsForm.itemSpacing.$error" role="alert" multiple>
+                                            <div ng-message="required" class="my-message">You must supply a number.</div>
+                                            <div ng-message="min" class="my-message">The minimum value is 0.</div>
+                                        </div>
                                     </md-input-container>
                                 </li>
                                 <li>
@@ -97,19 +107,31 @@
                                 <li>
                                     <md-input-container class="md-block">
                                         <label>Ideal row height (px)</label>
-                                        <input ng-model="vm.settings.layout.idealRowHeight">
+                                        <input type="number" required min="1" name="idealRowHeight" ng-model="vm.settings.layout.idealRowHeight">
+                                        <div ng-messages="controlsForm.idealRowHeight.$error" role="alert" multiple>
+                                            <div ng-message="required" class="my-message">You must supply a number.</div>
+                                            <div ng-message="min" class="my-message">The minimum value is 1.</div>
+                                        </div>
                                     </md-input-container>
                                 </li>
                                 <li>
                                     <md-input-container class="md-block">
                                         <label>Min width/height ratio</label>
-                                        <input ng-model="vm.settings.layout.minWidthHeightRatio">
+                                        <input type="number" required min="0" step="any" name="minWidthHeightRatio" ng-model="vm.settings.layout.minWidthHeightRatio">
+                                        <div ng-messages="controlsForm.minWidthHeightRatio.$error" role="alert" multiple>
+                                            <div ng-message="required" class="my-message">You must supply a number.</div>
+                                            <div ng-message="min" class="my-message">The minimum value is 0.</div>
+                                        </div>
                                     </md-input-container>
                                 </li>
                                 <li>
                                     <md-input-container class="md-block">
                                         <label>Max width/height ratio</label>
-                                        <input ng-model="vm.settings.layout.maxWidthHeightRatio">
+                                        <input type="number" required min="0" step="any" name="maxWidthHeightRatio" ng-model="vm.settings.layout.maxWidthHeightRatio">
+                                        <div ng-messages="controlsForm.maxWidthHeightRatio.$error" role="alert" multiple>
+                                            <div ng-message="required" class="my-message">You must supply a number.</div>
+                                            <div ng-message="min" class="my-message">The minimum value is 0.</div>
+                                        </div>
                                     </md-input-container>
                                 </li>
                                 <li>
@@ -125,7 +147,11 @@
                                 <li>
                                     <md-input-container class="md-block">
                                         <label>Cropping epsilon (px)</label>
-                                        <input ng-model="vm.settings.layout.croppingEpsilon">
+                                        <input type="number" required min="0" step="any" name="croppingEpsilon" ng-model="vm.settings.layout.croppingEpsilon">
+                                        <div ng-messages="controlsForm.croppingEpsilon.$error" role="alert" multiple>
+                                            <div ng-message="required" class="my-message">You must supply a number.</div>
+                                            <div ng-message="min" class="my-message">The minimum value is 0.</div>
+                                        </div>
                                     </md-input-container>
                                 </li>
                                 <li>
@@ -170,8 +196,22 @@
                                 </li>
                                 <li>
                                     <md-input-container class="md-block">
+                                        <label>Container resize interval (ms)</label>
+                                        <input type="number" required min="0" name="containerResizeInterval" ng-model="vm.settings.responsive.containerResizeInterval">
+                                        <div ng-messages="controlsForm.containerResizeInterval.$error" role="alert" multiple>
+                                            <div ng-message="required" class="my-message">You must supply a number.</div>
+                                            <div ng-message="min" class="my-message">The minimum value is 0.</div>
+                                        </div>
+                                    </md-input-container>
+                                </li>
+                                <li>
+                                    <md-input-container class="md-block">
                                         <label>Debounce (ms)</label>
-                                        <input ng-model="vm.settings.responsive.debounce">
+                                        <input type="number" required min="0" name="debounce" ng-model="vm.settings.responsive.debounce">
+                                        <div ng-messages="controlsForm.debounce.$error" role="alert" multiple>
+                                            <div ng-message="required" class="my-message">You must supply a number.</div>
+                                            <div ng-message="min" class="my-message">The minimum value is 0.</div>
+                                        </div>
                                     </md-input-container>
                                 </li>
                             </ul>
@@ -197,13 +237,21 @@
                                 <li>
                                     <md-input-container class="md-block">
                                         <label>Epsilon (px)</label>
-                                        <input ng-model="vm.settings.algorithm.epsilon">
+                                        <input type="number" required min="0" step="any" name="epsilon" ng-model="vm.settings.algorithm.epsilon">
+                                        <div ng-messages="controlsForm.epsilon.$error" role="alert" multiple>
+                                            <div ng-message="required" class="my-message">You must supply a number.</div>
+                                            <div ng-message="min" class="my-message">The minimum value is 0.</div>
+                                        </div>
                                     </md-input-container>
                                 </li>
                                 <li>
                                     <md-input-container class="md-block">
                                         <label>Max iteration count</label>
-                                        <input ng-model="vm.settings.algorithm.maxIterationCount">
+                                        <input type="number" required min="1" step="any" name="maxIterationCount" ng-model="vm.settings.algorithm.maxIterationCount">
+                                        <div ng-messages="controlsForm.maxIterationCount.$error" role="alert" multiple>
+                                            <div ng-message="required" class="my-message">You must supply a number.</div>
+                                            <div ng-message="min" class="my-message">The minimum value is 1.</div>
+                                        </div>
                                     </md-input-container>
                                 </li>
                             </ul>
@@ -217,7 +265,7 @@
         <md-content flex class="content">
             <div class="gallery-container">
 
-                <div class="gallery" id="gallery-number-pictures" ng-show="vm.gallery.id=='gallery-number-pictures'">
+                <div class="gallery" id="gallery-number-pictures" ng-show="vm.isGallerySelected('gallery-number-pictures')">
                     <div class="item" data-jpictura-height="200" data-jpictura-width="300"><img alt="Test picture" src="number-pictures/300x200.png"/></div>
                     <div class="item" data-jpictura-height="200" data-jpictura-width="300"><img alt="Test picture" src="number-pictures/300x200.png"/></div>
                     <div class="item" data-jpictura-height="200" data-jpictura-width="300"><img alt="Test picture" src="number-pictures/300x200.png"/></div>
@@ -237,7 +285,7 @@
                     <div class="item" data-jpictura-height="200" data-jpictura-width="300"><img alt="Test picture" src="number-pictures/300x200.png"/></div>
                 </div>
 
-                <div class="gallery" id="gallery-real-pictures" ng-show="vm.gallery.id=='gallery-real-pictures'">
+                <div class="gallery" id="gallery-real-pictures" ng-show="vm.isGallerySelected('gallery-real-pictures')">
                     <div class="item"><img alt="Test picture" src="real-pictures/400x267.jpg"/></div>
                     <div class="item"><img alt="Test picture" src="real-pictures/200x267.jpg"/></div>
                     <div class="item"><img alt="Test picture" src="real-pictures/445x100.jpg"/></div>
@@ -247,11 +295,11 @@
                     <div class="item"><img alt="Test picture" src="real-pictures/100x100.jpg"/></div>
                     <div class="item"><img alt="Test picture" src="real-pictures/300x256.jpg"/></div>
                     <div class="item"><img alt="Test picture" src="real-pictures/300x300.jpg"/></div>
-                    <div class="item"><img alt="Test picture" src="real-pictures/300x200.jpg"/></div>
+                    <div class="item"><img alt="Test picture" src="real-pictures/300x200.jpg" /></div>
                     <div class="item"><img alt="Test picture" src="real-pictures/400x261.jpg"/></div>
                 </div>
 
-                <div class="gallery" id="gallery-pictures-from-net" ng-show="vm.gallery.id=='gallery-pictures-from-net'">
+                <div class="gallery" id="gallery-pictures-from-net" ng-show="vm.isGallerySelected('gallery-pictures-from-net')">
                     <div class="item"><img alt="image" src="https://upload.wikimedia.org/wikipedia/commons/1/19/Orange_flower_of_Georgia.jpg"/></div>
                     <div class="item"><img alt="image" src="https://upload.wikimedia.org/wikipedia/commons/5/51/Catunaregam_spinosa_(Mountain_Pomegranate)_flower_W_IMG_9083.jpg"/></div>
                     <div class="item"><img alt="image" src="https://upload.wikimedia.org/wikipedia/commons/4/4d/Cassava_flower,_Manihot_esculenta.jpg"/></div>
@@ -264,244 +312,6 @@
 
             </div>
         </md-content>
-
-
-        <!-- <div class="gallery test-gallery" id="gallery-2" style="width: 240px; border-left: 1px dashed black; border-right: 1px dashed black;">-->
-        <!-- <div class="item">-->
-        <!-- <img alt="Test picture" src="test-pictures/90x60-gray.png"/>-->
-        <!-- </div>-->
-        <!-- <div class="item">-->
-        <!-- <img alt="Test picture" src="test-pictures/60x90-gray.png"/>-->
-        <!-- </div>-->
-        <!-- <div class="item">-->
-        <!-- <img alt="Test picture" src="test-pictures/90x60-gray.png"/>-->
-        <!-- </div>-->
-        <!-- <div class="item" style="overflow: visible;">-->
-        <!-- <span class="labelling" style="right: 95px; top: 20px; text-align: right;">&gt;</span>-->
-        <!-- <span class="labelling" style="left: 0; top: 20px; z-index: 5; text-align: left;">&lt; 5px</span>-->
-        <!-- <img alt="Test picture" src="test-pictures/90x60-gray.png"/>-->
-        <!-- </div>-->
-        <!-- <div class="item">-->
-        <!-- <img alt="Test picture" src="test-pictures/90x60-gray.png"/>-->
-        <!-- </div>-->
-        <!-- </div>-->
-        <!---->
-        <!-- <script type="text/javascript">-->
-        <!-- $(function () {-->
-        <!-- $("#gallery-2").jpictura({ layout: { rowPadding: 5, idealRowHeight: 60 } });-->
-        <!-- });-->
-        <!-- </script>-->
-        <!---->
-        <!---->
-        <!-- <div class="gallery test-gallery" id="gallery-3" style="width: 230px;">-->
-        <!-- <div class="item">-->
-        <!-- <img alt="Test picture" src="test-pictures/90x60-gray.png"/>-->
-        <!-- </div>-->
-        <!-- <div class="item">-->
-        <!-- <img alt="Test picture" src="test-pictures/60x90-gray.png"/>-->
-        <!-- </div>-->
-        <!-- <div class="item">-->
-        <!-- <img alt="Test picture" src="test-pictures/90x60-gray.png"/>-->
-        <!-- </div>-->
-        <!-- <div class="item">-->
-        <!-- <span class="labelling" style="right: 0; top: 20px; text-align: right;">5px &gt;</span>-->
-        <!-- <img alt="Test picture" src="test-pictures/90x60-gray.png"/>-->
-        <!-- </div>-->
-        <!-- <div class="item">-->
-        <!-- <span class="labelling" style="left: 0; top: 20px; text-align: left;">&lt;</span>-->
-        <!-- <img alt="Test picture" src="test-pictures/90x60-gray.png"/>-->
-        <!-- </div>-->
-        <!-- </div>-->
-        <!---->
-        <!-- <script type="text/javascript">-->
-        <!-- $(function () {-->
-        <!-- $("#gallery-3").jpictura({ layout: { itemSpacing: 5, idealRowHeight: 60 } });-->
-        <!-- });-->
-        <!-- </script>-->
-        <!---->
-        <!---->
-        <!-- <div class="gallery test-gallery" id="gallery-4" style="width: 230px;">-->
-        <!-- <div class="item">-->
-        <!-- <img alt="Test picture" src="test-pictures/90x60-gray.png"/>-->
-        <!-- </div>-->
-        <!-- <div class="item">-->
-        <!-- <img alt="Test picture" src="test-pictures/60x90-gray.png"/>-->
-        <!-- </div>-->
-        <!-- <div class="item">-->
-        <!-- <img alt="Test picture" src="test-pictures/90x60-gray.png"/>-->
-        <!-- </div>-->
-        <!-- <div class="item">-->
-        <!-- <span class="labelling" style="width: 100%; left: 0; top: 30px; text-align: center; transform: rotate(-90deg)">76px</span>-->
-        <!-- <span class="labelling" style="width: 100%; left: 0; top: 0; line-height: 0.8em; text-align: center; transform: rotate(-90deg)">&gt;</span>-->
-        <!-- <span class="labelling" style="width: 100%; left: 0; bottom: 0; line-height: 0.8em; text-align: center; transform: rotate(-90deg)">&lt;</span>-->
-        <!-- <img alt="Test picture" src="test-pictures/90x60-gray.png"/>-->
-        <!-- </div>-->
-        <!-- <div class="item">-->
-        <!-- <img alt="Test picture" src="test-pictures/90x60-gray.png"/>-->
-        <!-- </div>-->
-        <!-- </div>-->
-        <!---->
-        <!-- <script type="text/javascript">-->
-        <!-- $(document).ready(function () {-->
-        <!-- $("#gallery-4").jpictura({ layout: { idealRowHeight: 80 } });-->
-        <!-- });-->
-        <!-- </script>-->
-        <!---->
-        <!---->
-        <!-- <div class="gallery test-gallery" id="gallery-5" style="width: 230px;">-->
-        <!-- <div class="item">-->
-        <!-- <img alt="Test picture" src="test-pictures/90x60-gray.png"/>-->
-        <!-- </div>-->
-        <!-- <div class="item">-->
-        <!-- <img alt="Test picture" src="test-pictures/60x90-gray.png"/>-->
-        <!-- </div>-->
-        <!-- <div class="item">-->
-        <!-- <img alt="Test picture" src="test-pictures/90x60-gray.png"/>-->
-        <!-- </div>-->
-        <!-- <div class="item">-->
-        <!-- <img alt="Test picture" src="test-pictures/90x60-gray.png"/>-->
-        <!-- </div>-->
-        <!-- <div class="item">-->
-        <!-- <img alt="Test picture" src="test-pictures/30x30-red.png"/>-->
-        <!-- </div>-->
-        <!-- <div class="item">-->
-        <!-- <img alt="Test picture" src="test-pictures/90x60-gray.png"/>-->
-        <!-- </div>-->
-        <!-- </div>-->
-        <!---->
-        <!-- <script type="text/javascript">-->
-        <!-- $(document).ready(function () {-->
-        <!-- $("#gallery-5").jpictura({ layout: { stretchImages: false, idealRowHeight: 60 } });-->
-        <!-- });-->
-        <!-- </script>-->
-        <!---->
-        <!---->
-        <!-- <div class="gallery test-gallery" id="gallery-6" style="width: 230px;">-->
-        <!-- <div class="item">-->
-        <!-- <img alt="Test picture" src="test-pictures/90x60-gray.png"/>-->
-        <!-- </div>-->
-        <!-- <div class="item">-->
-        <!-- <img alt="Test picture" src="test-pictures/60x90-gray.png"/>-->
-        <!-- </div>-->
-        <!-- <div class="item">-->
-        <!-- <img alt="Test picture" src="test-pictures/90x60-gray.png"/>-->
-        <!-- </div>-->
-        <!-- <div class="item">-->
-        <!-- <img alt="Test picture" src="test-pictures/90x60-gray.png"/>-->
-        <!-- </div>-->
-        <!-- <div class="item">-->
-        <!-- <img alt="Test picture" src="test-pictures/30x30-red.png"/>-->
-        <!-- </div>-->
-        <!-- <div class="item">-->
-        <!-- <img alt="Test picture" src="test-pictures/90x60-gray.png"/>-->
-        <!-- </div>-->
-        <!-- </div>-->
-        <!---->
-        <!-- <script type="text/javascript">-->
-        <!-- $(document).ready(function () {-->
-        <!-- $("#gallery-6").jpictura({ layout: { stretchImages: true, idealRowHeight: 60 } });-->
-        <!-- });-->
-        <!-- </script>-->
-        <!---->
-        <!---->
-        <!-- <div class="gallery test-gallery" id="gallery-7" style="width: 230px;">-->
-        <!-- <div class="item">-->
-        <!-- <img alt="Test picture" src="test-pictures/267x60-red-icon.png"/>-->
-        <!-- </div>-->
-        <!-- <div class="item">-->
-        <!-- <img alt="Test picture" src="test-pictures/60x90-gray.png"/>-->
-        <!-- </div>-->
-        <!-- <div class="item">-->
-        <!-- <img alt="Test picture" src="test-pictures/90x60-gray.png"/>-->
-        <!-- </div>-->
-        <!-- <div class="item">-->
-        <!-- <img alt="Test picture" src="test-pictures/30x30-red.png"/>-->
-        <!-- </div>-->
-        <!-- <div class="item">-->
-        <!-- <img alt="Test picture" src="test-pictures/90x60-gray.png"/>-->
-        <!-- </div>-->
-        <!-- </div>-->
-        <!---->
-        <!-- <script type="text/javascript">-->
-        <!-- $(document).ready(function () {-->
-        <!-- $("#gallery-7").jpictura({ layout: { stretchImages: true, allowCropping: true, idealRowHeight: 60 } });-->
-        <!-- });-->
-        <!-- </script>-->
-        <!---->
-        <!---->
-        <!-- <div class="gallery test-gallery" id="gallery-8" style="width: 230px;">-->
-        <!-- <div class="item">-->
-        <!-- <img alt="Test picture" src="test-pictures/267x60-red-icon.png"/>-->
-        <!-- </div>-->
-        <!-- <div class="item">-->
-        <!-- <img alt="Test picture" src="test-pictures/60x90-gray.png"/>-->
-        <!-- </div>-->
-        <!-- <div class="item">-->
-        <!-- <img alt="Test picture" src="test-pictures/90x60-gray.png"/>-->
-        <!-- </div>-->
-        <!-- <div class="item">-->
-        <!-- <img alt="Test picture" src="test-pictures/30x30-red.png"/>-->
-        <!-- </div>-->
-        <!-- <div class="item">-->
-        <!-- <img alt="Test picture" src="test-pictures/90x60-gray.png"/>-->
-        <!-- </div>-->
-        <!-- </div>-->
-        <!---->
-        <!-- <script type="text/javascript">-->
-        <!-- $(document).ready(function () {-->
-        <!-- $("#gallery-8").jpictura({ layout: { stretchImages: true, allowCropping: false, idealRowHeight: 60 } });-->
-        <!-- });-->
-        <!-- </script>-->
-        <!---->
-        <!---->
-        <!-- <div class="gallery test-gallery" id="gallery-9" style="width: 230px;">-->
-        <!-- <div class="item">-->
-        <!-- <img alt="Test picture" src="test-pictures/90x60-gray.png"/>-->
-        <!-- </div>-->
-        <!-- <div class="item">-->
-        <!-- <img alt="Test picture" src="test-pictures/60x90-gray.png"/>-->
-        <!-- </div>-->
-        <!-- <div class="item">-->
-        <!-- <img alt="Test picture" src="test-pictures/90x60-gray.png"/>-->
-        <!-- </div>-->
-        <!-- <div class="item">-->
-        <!-- <img alt="Test picture" src="test-pictures/90x60-gray.png"/>-->
-        <!-- </div>-->
-        <!-- <div class="item">-->
-        <!-- <img alt="Test picture" src="test-pictures/90x60-gray.png"/>-->
-        <!-- </div>-->
-        <!-- </div>-->
-        <!---->
-        <!-- <script type="text/javascript">-->
-        <!-- $(document).ready(function () {-->
-        <!-- $("#gallery-9").jpictura({ layout: { justifyLastRow: false, idealRowHeight: 60 } });-->
-        <!-- });-->
-        <!-- </script>-->
-        <!---->
-        <!---->
-        <!-- <div class="gallery test-gallery" id="gallery-10" style="width: 230px;">-->
-        <!-- <div class="item">-->
-        <!-- <img alt="Test picture" src="test-pictures/90x60-gray.png"/>-->
-        <!-- </div>-->
-        <!-- <div class="item">-->
-        <!-- <img alt="Test picture" src="test-pictures/60x90-gray.png"/>-->
-        <!-- </div>-->
-        <!-- <div class="item">-->
-        <!-- <img alt="Test picture" src="test-pictures/90x60-gray.png"/>-->
-        <!-- </div>-->
-        <!-- <div class="item">-->
-        <!-- <img alt="Test picture" src="test-pictures/90x60-gray.png"/>-->
-        <!-- </div>-->
-        <!-- <div class="item">-->
-        <!-- <img alt="Test picture" src="test-pictures/90x60-gray.png"/>-->
-        <!-- </div>-->
-        <!-- </div>-->
-        <!---->
-        <!-- <script type="text/javascript">-->
-        <!-- $(document).ready(function () {-->
-        <!-- $("#gallery-10").jpictura({ layout: { justifyLastRow: true, idealRowHeight: 60 } });-->
-        <!-- });-->
-        <!-- </script>-->
 
     </div>
 
