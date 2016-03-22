@@ -2,7 +2,7 @@
  * jPictura v@VERSION
  * https://github.com/anmarcek/jpictura.git
  *
- * Copyright (c) 2014-@YEAR Anton Marček
+ * Copyright (c) 2015-@YEAR Anton Marček
  * Released under the MIT license
  *
  * Date: @DATE
@@ -10,10 +10,12 @@
 
 var jpictura = jpictura || {};
 
-//TODO AnMa Important: Check if multiple and fast browser window resizes do not lead to a deadlock.
 //TODO AnMa Important: Implement real responsivness which watches the container width instead of the window width.
 //TODO AnMa Important: Turn off responsive event handlers while gallery redraw is in progress.
 //TODO AnMa Important: Update the readme file.
+//TODO AnMa Important: Add show code functionality to demo page.
+//TODO AnMa Important: Add angular and polymer support and split the solution.
+//TODO AnMa Important: Check the height calculation algorithm, its precision and improve performance.
 (function ($) {
 
     $.fn.jpictura = function (options) {
