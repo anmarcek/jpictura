@@ -49,6 +49,19 @@ md-toolbar .md-button.md-icon-button {
     padding-top: 0;
 }
 
+.code-preview {
+    margin: 20px;
+}
+
+.code-preview code {
+    font-family: Consolas, Menlo, Monaco, "Andale Mono", "lucida console", "Courier New", monospace;
+}
+
+    .code-preview code {
+        padding: 16px;
+        background: none;
+    }
+
 .gallery {
     margin: 20px auto;
     padding: 0 20px;

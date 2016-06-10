@@ -6,6 +6,9 @@
 
             vm.toggleControlPanel = toggleControlPanel;
 
+            vm.showCodePreview = false;
+            vm.toggleCodePreview = toggleCodePreview;
+
             vm.galleries = [
                 { id: 'gallery-number-pictures', name: 'Test schema (local)', selected: true },
                 { id: 'gallery-real-pictures', name: 'Landscapes (local)', selected: false },
@@ -75,10 +78,14 @@
             function toggleControlPanel() {
                 $mdSidenav('left').toggle();
             }
+
+            function toggleCodePreview() {
+                vm.showCodePreview = !vm.showCodePreview;
+            }
         }])
         .config(['$mdThemingProvider', function ($mdThemingProvider) {
             $mdThemingProvider
-                .theme('docs-dark')
+                .theme('docsDark')
                 .primaryPalette('lime')
                 .dark();
         }]);
