@@ -59,6 +59,7 @@ md-toolbar .md-button.md-icon-button {
 
     .code-preview code {
         padding: 16px;
+        display: block;
         background: none;
     }
 

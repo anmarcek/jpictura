@@ -6,6 +6,9 @@
 
             vm.toggleControlPanel = toggleControlPanel;
 
+            vm.codePreview = {
+                js: ''
+            };
             vm.showCodePreview = false;
             vm.toggleCodePreview = toggleCodePreview;
 
@@ -36,7 +39,7 @@
                     return;
                 }
 
-                rebuildGallery();
+                refresh();
             });
 
             $scope.$watch('vm.selectedPreset', function (oldValue, newValue) {
@@ -46,18 +49,12 @@
             });
 
             $scope.$watch('vm.settings', function (oldValue, newValue) {
-                if (angular.equals(oldValue, newValue)) {
-                    return;
-                }
-
                 if (vm.selectedPreset.settings !== null && !angular.equals(vm.settings, vm.selectedPreset.settings)) {
                     vm.selectedPreset = vm.presets[0];
                 }
 
-                rebuildGallery();
+                refresh();
             }, true);
-
-            rebuildGallery();
 
             function isGallerySelected(id) {
                 var result = false;
@@ -71,8 +68,39 @@
                 return result;
             }
 
+            function refresh() {
+                rebuildGallery();
+                updateCodePreview();
+            }
+
             function rebuildGallery() {
                 $('.gallery').jpictura(vm.settings);
+            }
+
+            function updateCodePreview() {
+                var settings = getObjectDifferences($.fn.jpictura.defaults, vm.settings);
+                var settingsString = Object.keys(settings).length > 0 ? angular.toJson(settings, true) : '';
+                vm.codePreview.js = "$('.gallery').jpictura(" + settingsString + ");";
+                hljs.highlightBlock($('pre code'));
+            }
+
+            function getObjectDifferences(obj1, obj2) {
+                var differences = {};
+
+                for (var i in obj1) {
+                    if (typeof (obj1[i]) === 'object') {
+                        var diff = getObjectDifferences(obj1[i], obj2[i]);
+                        if (Object.keys(diff).length) {
+                            differences[i] = diff;
+                        }
+                    } else {
+                        if (!angular.equals(obj1[i], obj2[i])) {
+                            differences[i] = obj2[i];
+                        }
+                    }
+                }
+
+                return differences;
             }
 
             function toggleControlPanel() {
@@ -89,4 +117,4 @@
                 .primaryPalette('lime')
                 .dark();
         }]);
-})(angular);
+})(angular, hljs);

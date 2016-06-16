@@ -24,10 +24,6 @@
 
     <script src="app.js" type="text/javascript"></script>
     <script src="../dist/jpictura.js" type="text/javascript"></script>
-
-    <script type="text/javascript">
-        hljs.initHighlightingOnLoad();
-    </script>
 </head>
 
 <body ng-app="jpicturaDemoApp" ng-controller="MainController as vm" ng-cloak layout="column">
@@ -278,10 +274,7 @@
                     </md-tab>
                     <md-tab label="JS">
                         <md-content>
-                            <pre><code class="javascript">alert('Hello world!');
-if(x) {
-    alert(x);
-}</code></pre>
+                            <pre><code class="javascript">{{ vm.codePreview.js }}</code></pre>
                         </md-content>
                     </md-tab>
                 </md-tabs>
