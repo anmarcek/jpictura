@@ -330,8 +330,8 @@ However it is possible to speed up loading of the gallery if the image dimension
 
 ```html
 <div id="my-gallery">
-    <div class="item"><img data-jpictura-width="300" data-jpictura-height="200" src="foo.png" /></div>
-    <div class="item"><img data-jpictura-width="200" data-jpictura-height="300" src="bar.png" /></div>
+    <div class="item" data-jpictura-width="300" data-jpictura-height="200"><img src="foo.png" /></div>
+    <div class="item" data-jpictura-width="200" data-jpictura-height="300"><img src="bar.png" /></div>
 </div>
 
 $(document).ready(function () {

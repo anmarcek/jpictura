@@ -7,6 +7,7 @@
             vm.toggleControlPanel = toggleControlPanel;
 
             vm.codePreview = {
+                html: '<div></div>',
                 js: ''
             };
             vm.showCodePreview = false;
@@ -81,8 +82,16 @@
                 var settings = getObjectDifferences($.fn.jpictura.defaults, vm.settings);
                 var settingsString = Object.keys(settings).length > 0 ? angular.toJson(settings, true) : '';
                 vm.codePreview.js = "$('.gallery').jpictura(" + settingsString + ");";
-                hljs.highlightBlock($('pre code'));
+                vm.updateCodePreviewHtml();
             }
+
+            vm.updateCodePreviewHtml = function () {
+                $('.code-preview pre code.javascript').text(vm.codePreview.js);
+
+                $('pre code').each(function (i, block) {
+                    hljs.highlightBlock(block);
+                });
+            };
 
             function getObjectDifferences(obj1, obj2) {
                 var differences = {};

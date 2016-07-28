@@ -268,13 +268,14 @@
 
             <md-content md-theme="docsDark" class="code-preview" ng-show="vm.showCodePreview">
                 <md-tabs md-dynamic-height md-border-bottom>
-                    <md-tab label="HTML">
+                    <md-tab label="HTML" md-on-select="vm.updateCodePreviewHtml()">
                         <md-content>
+                            <pre><code class="html"></code></pre>
                         </md-content>
                     </md-tab>
-                    <md-tab label="JS">
+                    <md-tab label="JS" md-on-select="vm.updateCodePreviewHtml()">
                         <md-content>
-                            <pre><code class="javascript">{{ vm.codePreview.js }}</code></pre>
+                            <pre><code class="javascript"></code></pre>
                         </md-content>
                     </md-tab>
                 </md-tabs>
