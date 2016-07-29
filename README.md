@@ -347,7 +347,7 @@ If true, the gallery will adapt itself to the actual width of its container when
 
 This feature may hinder the performance a bit, respectively increase the CPU consumption.
 
-This option has effect only if [`responsive.enabled`](#responsive.enabled) is set to `true`.
+This option has effect only if [`responsive.enabled`](#responsiveenabled) is set to `true`.
 
 ***
 
