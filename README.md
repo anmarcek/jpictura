@@ -329,7 +329,7 @@ $(document).ready(function () {
 
 ### responsive.enabled
 
-If true, the gallery will behave responsively. The responsive bahvior is further defined by the `responsive.` settings below.
+If true, the gallery will behave responsively. The responsive behavior is further defined by the `responsive.` settings below.
 
 ***
 
@@ -337,12 +337,17 @@ If true, the gallery will behave responsively. The responsive bahvior is further
 
 If true, the gallery will adapt itself to the actual window width whenever the window width is changed.
 
+This option has effect only if `responsive.enabled` is set to `true`.
+
 ***
 
 ### responsive.onContainerWidthResize
 
 If true, the gallery will adapt itself to the actual width of its container whenever the container's width is changed.
-However, this feature may hinder the performance a bit, respectively increase CPU consumption.
+
+This feature may hinder the performance a bit, respectively increase the CPU consumption.
+
+This option has effect only if [`responsive.enabled`](#responsive.enabled) is set to `true`.
 
 ***
 
