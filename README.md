@@ -73,41 +73,52 @@ The complete options object looks like this:
 
 ```javascript
 var options = {
-    selectors: {
-        item: '.item',
-        image: 'img'
-    },
-    classes: {
-        container: 'jpictura',
-        item: 'jpictura-item',
-        image: 'jpictura-image',
-        lastRow: 'jpictura-last-row',
-        firstInRow: 'jpictura-first-in-row',
-        lastInRow: 'jpictura-last-in-row'
-    },
-    layout: {
-        rowPadding: 0,
-        itemSpacing: 5,
-        applyItemSpacing: true,
-        idealRowHeight: 180,
-        minWidthHeightRatio: 1 / 3,
-        maxWidthHeightRatio: 3,
-        stretchImages: true,
-        allowCropping: true,
-        croppingEpsilon: 3,
-        centerImages: true,
-        justifyLastRow: false
-    },
-    effects: {
-        fadeInItems: false
-    },
-    waitForImages: true,
-    heightCalculator: heightCalculator,
-    algorithm: {
-        epsilon: 0.01,
-        maxIterationCount: 100
-    },
-    debug: false
+	selectors: {
+		item: '.item',
+		image: 'img'
+	},
+	classes: {
+		container: nameInLowerCase,
+		item: nameInLowerCase + '-item',
+		image: nameInLowerCase + '-image',
+		lastRow: nameInLowerCase + '-last-row',
+		firstInRow: nameInLowerCase + '-first-in-row',
+		lastInRow: nameInLowerCase + '-last-in-row',
+		invisible: nameInLowerCase + '-invisible',
+		hidden: nameInLowerCase + '-hidden',
+		offContentFlow: nameInLowerCase + '-off-content-flow'
+	},
+	layout: {
+		rowPadding: 0,
+		applyRowPadding: true,
+		itemSpacing: 5,
+		applyItemSpacing: true,
+		idealRowHeight: 180,
+		minWidthHeightRatio: 1 / 3,
+		maxWidthHeightRatio: 3,
+		stretchImages: true,
+		allowCropping: true,
+		croppingEpsilon: 3,
+		centerImages: true,
+		justifyLastRow: false
+	},
+	effects: {
+		fadeInItems: false
+	},
+	responsive: {
+		enabled: true,
+		onWindowWidthResize: true,
+		onContainerWidthResize: true,
+		containerResizeInterval: 50,
+		debounce: 200
+	},
+	waitForImages: true,
+	heightCalculator: jpictura.heightCalculator,
+	algorithm: {
+		epsilon: 0.01,
+		maxIterationCount: 50
+	},
+	debug: false
 };
 ```
 
@@ -316,9 +327,38 @@ $(document).ready(function () {
 
 ***
 
-### responsive
+### responsive.enabled
 
-If true, the gallery is redrawn every time the window width changes.
+If true, the gallery will behave responsively. The responsive bahvior is further defined by the `responsive.` settings below.
+
+***
+
+### responsive.onWindowWidthResize
+
+If true, the gallery will adapt itself to the actual window width whenever the window width is changed.
+
+***
+
+### responsive.onContainerWidthResize
+
+If true, the gallery will adapt itself to the actual width of its container whenever the container's width is changed.
+However, this feature may hinder the performance a bit, respectively increase CPU consumption.
+
+***
+
+### responsive.containerResizeInterval
+
+Interval (in milliseconds) that specifies how often is the gallery's container width checked.
+
+This option has effect only if `responsive.onContainerWidthResize` is set to `true`.
+
+***
+
+### responsive.debounce
+
+Specifies the debounce interval (in milliseconds) for the gallery redraw calls. This means that the gallery will not be redrawn while its container/window width is being changed. It will be redrawn only after the specified amount of millisecond since the container/window width has stopped being changed. You can read more about the debounce pattern on the [CSS tricks website](https://css-tricks.com/debouncing-throttling-explained-examples/).
+
+This option has effect only if `responsive.enabled` is set to `true`.
 
 ***
 

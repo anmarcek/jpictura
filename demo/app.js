@@ -79,13 +79,34 @@
             }
 
             function updateCodePreview() {
+                computeCodePreviewHtml();
+                computeCodePreviewJs();
+
+                vm.highlightCodePreview();
+            }
+
+            function computeCodePreviewHtml() {
+                var htmlString = '';
+
+                htmlString += '<div class="gallery">\n';
+                for (var i = 0; i < 3; i++) {
+                    htmlString += '  <div class="item"' +
+                        (!vm.settings.waitForImages ? ' data-jpictura-height="200" data-jpictura-width="300"' : '') +
+                        '><img src="picture' + (i + 1) + '.png" /></div>\n';
+                }
+                htmlString += '</div>';
+
+                vm.codePreview.html = htmlString;
+            }
+
+            function computeCodePreviewJs() {
                 var settings = getObjectDifferences($.fn.jpictura.defaults, vm.settings);
                 var settingsString = Object.keys(settings).length > 0 ? angular.toJson(settings, true) : '';
                 vm.codePreview.js = "$('.gallery').jpictura(" + settingsString + ");";
-                vm.updateCodePreviewHtml();
             }
 
-            vm.updateCodePreviewHtml = function () {
+            vm.highlightCodePreview = function () {
+                $('.code-preview pre code.html').text(vm.codePreview.html);
                 $('.code-preview pre code.javascript').text(vm.codePreview.js);
 
                 $('pre code').each(function (i, block) {
