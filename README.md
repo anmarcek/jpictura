@@ -337,7 +337,7 @@ If true, the gallery will behave responsively. The responsive behavior is furthe
 
 If true, the gallery will adapt itself to the actual window width whenever the window width is changed.
 
-This option has effect only if `responsive.enabled` is set to `true`.
+This option has effect only if [`responsive.enabled`](#responsiveenabled) is set to `true`.
 
 ***
 
@@ -355,7 +355,7 @@ This option has effect only if [`responsive.enabled`](#responsiveenabled) is set
 
 Interval (in milliseconds) that specifies how often is the gallery's container width checked.
 
-This option has effect only if `responsive.onContainerWidthResize` is set to `true`.
+This option has effect only if [`responsive.onContainerWidthResize`](#responsiveoncontainerwidthresize) is set to `true`.
 
 ***
 
@@ -363,7 +363,7 @@ This option has effect only if `responsive.onContainerWidthResize` is set to `tr
 
 Specifies the debounce interval (in milliseconds) for the gallery redraw calls. This means that the gallery will not be redrawn while its container/window width is being changed. It will be redrawn only after the specified amount of millisecond since the container/window width has stopped being changed. You can read more about the debounce pattern on the [CSS tricks website](https://css-tricks.com/debouncing-throttling-explained-examples/).
 
-This option has effect only if `responsive.enabled` is set to `true`.
+This option has effect only if [`responsive.enabled`](#responsiveenabled) is set to `true`.
 
 ***
 
