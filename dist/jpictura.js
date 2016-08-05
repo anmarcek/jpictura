@@ -140,13 +140,13 @@ jpictura.heightCalculator = function (getItemsWidthForHeightFunc, logFunc, opts)
     }
 }
 /*!
- * jPictura v1.2.1
+ * jPictura v1.2.2
  * https://github.com/anmarcek/jpictura.git
  *
  * Copyright (c) 2015-2016 Anton Marček
  * Released under the MIT license
  *
- * Date: 2016-08-05T11:49:15.908Z
+ * Date: 2016-08-05T12:17:17.107Z
  */
 
 var jpictura = jpictura || {};
