@@ -1,6 +1,26 @@
-var jpictura = jpictura || {};
-
-jpictura.debounce = function (func, wait, immediate) {
+/*!
+ * jPictura v2.0.0
+ * https://github.com/anmarcek/jpictura.git
+ *
+ * Copyright (c) 2015-2016 Anton Marček
+ * Released under the MIT license
+ *
+ * Date: 2016-08-10T08:37:08.929Z
+ */
+/*!
+ * jPictura Core v0.1.4
+ * https://github.com/anmarcek/jpictura-core.git
+ *
+ * Copyright (c) 2015-2016 Anton Marček
+ * Released under the MIT license
+ *
+ * Date: 2016-08-10T08:36:14.607Z
+ */
+var jpictura = {
+    core: {
+    }
+};
+jpictura.core.debounce = function (func, wait, immediate) {
     var timeout;
 
     return function () {
@@ -23,11 +43,11 @@ jpictura.debounce = function (func, wait, immediate) {
     };
 };
 
-jpictura.offWindowWidthResize = function (eventNamespace) {
+jpictura.core.offWindowWidthResize = function (eventNamespace) {
     $(window).off('.' + eventNamespace);
 };
 
-jpictura.onWindowWidthResize = function (eventNamespace, callback) {
+jpictura.core.onWindowWidthResize = function (eventNamespace, callback) {
     var $window = $(window);
     var lastWindowWidth = $window.width();
     $window.on('resize.' + eventNamespace, function () {
@@ -38,9 +58,7 @@ jpictura.onWindowWidthResize = function (eventNamespace, callback) {
         }
     });
 };
-var jpictura = jpictura || {};
-
-jpictura.heightCalculator = function (getItemsWidthForHeightFunc, logFunc, opts) {
+jpictura.core.heightCalculator = function (getItemsWidthForHeightFunc, logFunc, opts) {
     var log = logFunc;
     var getItemsWidthForHeight = getItemsWidthForHeightFunc;
     var options = opts;
@@ -138,18 +156,7 @@ jpictura.heightCalculator = function (getItemsWidthForHeightFunc, logFunc, opts)
 
         return height;
     }
-}
-/*!
- * jPictura v1.2.2
- * https://github.com/anmarcek/jpictura.git
- *
- * Copyright (c) 2015-2016 Anton Marček
- * Released under the MIT license
- *
- * Date: 2016-08-05T12:17:17.107Z
- */
-
-var jpictura = jpictura || {};
+};
 
 //TODO AnMa Important: Update the readme file.
 //TODO AnMa Important: Add show code functionality to demo page.
@@ -212,7 +219,7 @@ var jpictura = jpictura || {};
             debounce: 200
         },
         waitForImages: true,
-        heightCalculator: jpictura.heightCalculator,
+        heightCalculator: jpictura.core.heightCalculator,
         algorithm: {
             epsilon: 0.01,
             maxIterationCount: 50
@@ -274,7 +281,7 @@ var jpictura = jpictura || {};
     }
 
     function createGalleryFromItems($container, $items, options) {
-        var debouncedRedrawGallery = jpictura.debounce(function () {
+        var debouncedRedrawGallery = jpictura.core.debounce(function () {
             redrawGallery($container, $items, options);
         }, options.responsive.debounce);
 
@@ -285,9 +292,9 @@ var jpictura = jpictura || {};
 
     //TODO AnMa Important: Refactor.
     function applyResponsiveEventHandlers(handler, $container, options) {
-        jpictura.offWindowWidthResize(nameInLowerCase);
+        jpictura.core.offWindowWidthResize(nameInLowerCase);
         if (options.responsive.enabled && options.responsive.onWindowWidthResize) {
-            jpictura.onWindowWidthResize(nameInLowerCase, handler);
+            jpictura.core.onWindowWidthResize(nameInLowerCase, handler);
         }
 
         var intervalDataKey = nameInLowerCase + '-resize-interval';

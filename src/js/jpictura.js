@@ -1,16 +1,4 @@
-﻿/*!
- * jPictura v@VERSION
- * https://github.com/anmarcek/jpictura.git
- *
- * Copyright (c) 2015-@YEAR Anton Marček
- * Released under the MIT license
- *
- * Date: @DATE
- */
-
-var jpictura = jpictura || {};
-
-//TODO AnMa Important: Update the readme file.
+﻿//TODO AnMa Important: Update the readme file.
 //TODO AnMa Important: Add show code functionality to demo page.
 //TODO AnMa Important: Add angular and polymer support and split the solution.
 //TODO AnMa Important: Check the height calculation algorithm, its precision and improve performance.
@@ -71,7 +59,7 @@ var jpictura = jpictura || {};
             debounce: 200
         },
         waitForImages: true,
-        heightCalculator: jpictura.heightCalculator,
+        heightCalculator: jpictura.core.heightCalculator,
         algorithm: {
             epsilon: 0.01,
             maxIterationCount: 50
@@ -133,7 +121,7 @@ var jpictura = jpictura || {};
     }
 
     function createGalleryFromItems($container, $items, options) {
-        var debouncedRedrawGallery = jpictura.debounce(function () {
+        var debouncedRedrawGallery = jpictura.core.debounce(function () {
             redrawGallery($container, $items, options);
         }, options.responsive.debounce);
 
@@ -144,9 +132,9 @@ var jpictura = jpictura || {};
 
     //TODO AnMa Important: Refactor.
     function applyResponsiveEventHandlers(handler, $container, options) {
-        jpictura.offWindowWidthResize(nameInLowerCase);
+        jpictura.core.offWindowWidthResize(nameInLowerCase);
         if (options.responsive.enabled && options.responsive.onWindowWidthResize) {
-            jpictura.onWindowWidthResize(nameInLowerCase, handler);
+            jpictura.core.onWindowWidthResize(nameInLowerCase, handler);
         }
 
         var intervalDataKey = nameInLowerCase + '-resize-interval';

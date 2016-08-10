@@ -13,6 +13,8 @@
             vm.showCodePreview = false;
             vm.toggleCodePreview = toggleCodePreview;
 
+            vm.galleryContainerWidth = 100;
+
             vm.galleries = [
                 { id: 'gallery-number-pictures', name: 'Test schema (local)', selected: true },
                 { id: 'gallery-real-pictures', name: 'Landscapes (local)', selected: false },

@@ -34,10 +34,22 @@
                 <md-icon md-font-set="material-icons">menu</md-icon>
             </md-button>
             <h1 flexlayout-align="center"><img src="logo.png" class="logo"></h1>
+
             <div flex layout="row" layout-align="end">
-                <md-button class="md-icon-button code" ng-click="vm.toggleCodePreview()">
-                    <md-icon md-font-set="material-icons">code</md-icon>
-                </md-button>
+                <div style="max-width: 400px" flex layout="row">
+                    <div flex layout="column" layout-align="center">
+                        <md-slider-container>
+                            <md-slider min="5" max="100" round="0" ng-model="vm.galleryContainerWidth" class="md-primary"></md-slider>
+                            <!-- <md-input-container>-->
+                            <!-- <input flex type="number" ng-model="color.red" aria-label="red" aria-controls="red-slider">-->
+                            <!-- </md-input-container>-->
+                        </md-slider-container>
+                    </div>
+
+                    <md-button class="md-icon-button code" ng-click="vm.toggleCodePreview()">
+                        <md-icon md-font-set="material-icons">code</md-icon>
+                    </md-button>
+                </div>
             </div>
         </md-content>
     </md-toolbar>
@@ -281,53 +293,55 @@
                 </md-tabs>
             </md-content>
 
-            <div class="gallery-container">
+            <div>
+                <div class="gallery-container" ng-style="{width: vm.galleryContainerWidth + '%'}">
 
-                <div class="gallery" id="gallery-number-pictures" ng-show="vm.isGallerySelected('gallery-number-pictures')">
-                    <div class="item" data-jpictura-height="200" data-jpictura-width="300"><img alt="Test picture" src="number-pictures/300x200.png"/></div>
-                    <div class="item" data-jpictura-height="200" data-jpictura-width="300"><img alt="Test picture" src="number-pictures/300x200.png"/></div>
-                    <div class="item" data-jpictura-height="200" data-jpictura-width="300"><img alt="Test picture" src="number-pictures/300x200.png"/></div>
-                    <div class="item" data-jpictura-height="200" data-jpictura-width="300"><img alt="Test picture" src="number-pictures/300x200.png"/></div>
-                    <div class="item" data-jpictura-height="600" data-jpictura-width="100"><img alt="Test picture" src="number-pictures/100x600.png"/></div>
-                    <div class="item" data-jpictura-height="200" data-jpictura-width="300"><img alt="Test picture" src="number-pictures/300x200.png"/></div>
-                    <div class="item" data-jpictura-height="200" data-jpictura-width="300"><img alt="Test picture" src="number-pictures/300x200.png"/></div>
-                    <div class="item" data-jpictura-height="400" data-jpictura-width="200"><img alt="Test picture" src="number-pictures/200x400.png"/></div>
-                    <div class="item" data-jpictura-height="400" data-jpictura-width="200"><img alt="Test picture" src="number-pictures/200x400.png"/></div>
-                    <div class="item" data-jpictura-height="200" data-jpictura-width="300"><img alt="Test picture" src="number-pictures/300x200.png"/></div>
-                    <div class="item" data-jpictura-height="200" data-jpictura-width="300"><img alt="Test picture" src="number-pictures/300x200.png"/></div>
-                    <div class="item" data-jpictura-height="100" data-jpictura-width="100"><img alt="Test picture" src="number-pictures/100x100.png"/></div>
-                    <div class="item" data-jpictura-height="180" data-jpictura-width="320"><img alt="Test picture" src="number-pictures/320x180.png"/></div>
-                    <div class="item" data-jpictura-height="200" data-jpictura-width="300"><img alt="Test picture" src="number-pictures/300x200.png"/></div>
-                    <div class="item" data-jpictura-height="100" data-jpictura-width="600"><img alt="Test picture" src="number-pictures/600x100.png"/></div>
-                    <div class="item" data-jpictura-height="200" data-jpictura-width="300"><img alt="Test picture" src="number-pictures/300x200.png"/></div>
-                    <div class="item" data-jpictura-height="200" data-jpictura-width="300"><img alt="Test picture" src="number-pictures/300x200.png"/></div>
+                    <div class="gallery" id="gallery-number-pictures" ng-show="vm.isGallerySelected('gallery-number-pictures')">
+                        <div class="item" data-jpictura-height="200" data-jpictura-width="300"><img alt="Test picture" src="number-pictures/300x200.png"/></div>
+                        <div class="item" data-jpictura-height="200" data-jpictura-width="300"><img alt="Test picture" src="number-pictures/300x200.png"/></div>
+                        <div class="item" data-jpictura-height="200" data-jpictura-width="300"><img alt="Test picture" src="number-pictures/300x200.png"/></div>
+                        <div class="item" data-jpictura-height="200" data-jpictura-width="300"><img alt="Test picture" src="number-pictures/300x200.png"/></div>
+                        <div class="item" data-jpictura-height="600" data-jpictura-width="100"><img alt="Test picture" src="number-pictures/100x600.png"/></div>
+                        <div class="item" data-jpictura-height="200" data-jpictura-width="300"><img alt="Test picture" src="number-pictures/300x200.png"/></div>
+                        <div class="item" data-jpictura-height="200" data-jpictura-width="300"><img alt="Test picture" src="number-pictures/300x200.png"/></div>
+                        <div class="item" data-jpictura-height="400" data-jpictura-width="200"><img alt="Test picture" src="number-pictures/200x400.png"/></div>
+                        <div class="item" data-jpictura-height="400" data-jpictura-width="200"><img alt="Test picture" src="number-pictures/200x400.png"/></div>
+                        <div class="item" data-jpictura-height="200" data-jpictura-width="300"><img alt="Test picture" src="number-pictures/300x200.png"/></div>
+                        <div class="item" data-jpictura-height="200" data-jpictura-width="300"><img alt="Test picture" src="number-pictures/300x200.png"/></div>
+                        <div class="item" data-jpictura-height="100" data-jpictura-width="100"><img alt="Test picture" src="number-pictures/100x100.png"/></div>
+                        <div class="item" data-jpictura-height="180" data-jpictura-width="320"><img alt="Test picture" src="number-pictures/320x180.png"/></div>
+                        <div class="item" data-jpictura-height="200" data-jpictura-width="300"><img alt="Test picture" src="number-pictures/300x200.png"/></div>
+                        <div class="item" data-jpictura-height="100" data-jpictura-width="600"><img alt="Test picture" src="number-pictures/600x100.png"/></div>
+                        <div class="item" data-jpictura-height="200" data-jpictura-width="300"><img alt="Test picture" src="number-pictures/300x200.png"/></div>
+                        <div class="item" data-jpictura-height="200" data-jpictura-width="300"><img alt="Test picture" src="number-pictures/300x200.png"/></div>
+                    </div>
+
+                    <div class="gallery" id="gallery-real-pictures" ng-show="vm.isGallerySelected('gallery-real-pictures')">
+                        <div class="item"><img alt="Test picture" src="real-pictures/400x267.jpg"/></div>
+                        <div class="item"><img alt="Test picture" src="real-pictures/200x267.jpg"/></div>
+                        <div class="item"><img alt="Test picture" src="real-pictures/445x100.jpg"/></div>
+                        <div class="item"><img alt="Test picture" src="real-pictures/200x300.jpg"/></div>
+                        <div class="item"><img alt="Test picture" src="real-pictures/100x395.jpg"/></div>
+                        <div class="item"><img alt="Test picture" src="real-pictures/250x375.jpg"/></div>
+                        <div class="item"><img alt="Test picture" src="real-pictures/100x100.jpg"/></div>
+                        <div class="item"><img alt="Test picture" src="real-pictures/300x256.jpg"/></div>
+                        <div class="item"><img alt="Test picture" src="real-pictures/300x300.jpg"/></div>
+                        <div class="item"><img alt="Test picture" src="real-pictures/300x200.jpg"/></div>
+                        <div class="item"><img alt="Test picture" src="real-pictures/400x261.jpg"/></div>
+                    </div>
+
+                    <div class="gallery" id="gallery-pictures-from-net" ng-show="vm.isGallerySelected('gallery-pictures-from-net')">
+                        <div class="item"><img alt="image" src="https://upload.wikimedia.org/wikipedia/commons/1/19/Orange_flower_of_Georgia.jpg"/></div>
+                        <div class="item"><img alt="image" src="https://upload.wikimedia.org/wikipedia/commons/5/51/Catunaregam_spinosa_(Mountain_Pomegranate)_flower_W_IMG_9083.jpg"/></div>
+                        <div class="item"><img alt="image" src="https://upload.wikimedia.org/wikipedia/commons/4/4d/Cassava_flower,_Manihot_esculenta.jpg"/></div>
+                        <div class="item"><img alt="image" src="https://upload.wikimedia.org/wikipedia/en/a/af/Lily-flower-free.jpg"/></div>
+                        <div class="item"><img alt="image" src="https://upload.wikimedia.org/wikipedia/commons/1/19/Orange_flower_of_Georgia.jpg"/></div>
+                        <div class="item"><img alt="image" src="https://upload.wikimedia.org/wikipedia/commons/9/93/Daisy_flower.jpg"/></div>
+                        <div class="item"><img alt="image" src="https://upload.wikimedia.org/wikipedia/commons/4/4d/Cassava_flower,_Manihot_esculenta.jpg"/></div>
+                        <div class="item"><img alt="image" src="https://upload.wikimedia.org/wikipedia/commons/f/f2/Peach_flowers.jpg"/></div>
+                    </div>
+
                 </div>
-
-                <div class="gallery" id="gallery-real-pictures" ng-show="vm.isGallerySelected('gallery-real-pictures')">
-                    <div class="item"><img alt="Test picture" src="real-pictures/400x267.jpg"/></div>
-                    <div class="item"><img alt="Test picture" src="real-pictures/200x267.jpg"/></div>
-                    <div class="item"><img alt="Test picture" src="real-pictures/445x100.jpg"/></div>
-                    <div class="item"><img alt="Test picture" src="real-pictures/200x300.jpg"/></div>
-                    <div class="item"><img alt="Test picture" src="real-pictures/100x395.jpg"/></div>
-                    <div class="item"><img alt="Test picture" src="real-pictures/250x375.jpg"/></div>
-                    <div class="item"><img alt="Test picture" src="real-pictures/100x100.jpg"/></div>
-                    <div class="item"><img alt="Test picture" src="real-pictures/300x256.jpg"/></div>
-                    <div class="item"><img alt="Test picture" src="real-pictures/300x300.jpg"/></div>
-                    <div class="item"><img alt="Test picture" src="real-pictures/300x200.jpg"/></div>
-                    <div class="item"><img alt="Test picture" src="real-pictures/400x261.jpg"/></div>
-                </div>
-
-                <div class="gallery" id="gallery-pictures-from-net" ng-show="vm.isGallerySelected('gallery-pictures-from-net')">
-                    <div class="item"><img alt="image" src="https://upload.wikimedia.org/wikipedia/commons/1/19/Orange_flower_of_Georgia.jpg"/></div>
-                    <div class="item"><img alt="image" src="https://upload.wikimedia.org/wikipedia/commons/5/51/Catunaregam_spinosa_(Mountain_Pomegranate)_flower_W_IMG_9083.jpg"/></div>
-                    <div class="item"><img alt="image" src="https://upload.wikimedia.org/wikipedia/commons/4/4d/Cassava_flower,_Manihot_esculenta.jpg"/></div>
-                    <div class="item"><img alt="image" src="https://upload.wikimedia.org/wikipedia/en/a/af/Lily-flower-free.jpg"/></div>
-                    <div class="item"><img alt="image" src="https://upload.wikimedia.org/wikipedia/commons/1/19/Orange_flower_of_Georgia.jpg"/></div>
-                    <div class="item"><img alt="image" src="https://upload.wikimedia.org/wikipedia/commons/9/93/Daisy_flower.jpg"/></div>
-                    <div class="item"><img alt="image" src="https://upload.wikimedia.org/wikipedia/commons/4/4d/Cassava_flower,_Manihot_esculenta.jpg"/></div>
-                    <div class="item"><img alt="image" src="https://upload.wikimedia.org/wikipedia/commons/f/f2/Peach_flowers.jpg"/></div>
-                </div>
-
             </div>
 
         </md-content>

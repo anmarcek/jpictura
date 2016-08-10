@@ -63,6 +63,11 @@ md-toolbar .md-button.md-icon-button {
         background: none;
     }
 
+.gallery-container {
+    margin-right: auto;
+    margin-left: auto;
+}
+
 .gallery {
     margin: 20px auto;
     padding: 0 20px;
