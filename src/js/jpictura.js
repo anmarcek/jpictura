@@ -1,6 +1,4 @@
-﻿//TODO AnMa Important: Update the readme file.
-//TODO AnMa Important: Add show code functionality to demo page.
-//TODO AnMa Important: Add angular and polymer support and split the solution.
+﻿//TODO AnMa Important: Add angular and polymer support and split the solution.
 //TODO AnMa Important: Check the height calculation algorithm, its precision and improve performance.
 (function ($) {
 
