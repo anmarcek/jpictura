@@ -182,7 +182,8 @@
                 }
             }
 
-            tryRedrawGallery(containerWidthBefore, $items, options);
+            // The container width might be a number with decimal places, therefore Math.floor has to be applied
+            tryRedrawGallery(Math.floor(containerWidthBefore), $items, options);
 
             var containerWidthAfter = getContainerWidth($container);
             containerWidths.push(containerWidthAfter);
@@ -498,7 +499,7 @@
     }
 
     function getContainerWidth($container) {
-        return $container.width();
+        return parseFloat(window.getComputedStyle($container[0], null).getPropertyValue('width'));
     }
 
     function log(message) {

@@ -1,11 +1,11 @@
 /*!
- * jPictura v2.0.0
+ * jPictura v1.2.3
  * https://github.com/anmarcek/jpictura.git
  *
  * Copyright (c) 2015-2016 Anton Marček
  * Released under the MIT license
  *
- * Date: 2016-08-10T08:37:08.929Z
+ * Date: 2016-08-11T14:33:12.122Z
  */
 /*!
  * jPictura Core v0.1.4
@@ -342,7 +342,8 @@ jpictura.core.heightCalculator = function (getItemsWidthForHeightFunc, logFunc, 
                 }
             }
 
-            tryRedrawGallery(containerWidthBefore, $items, options);
+            // The container width might be a number with decimal places, therefore Math.floor has to be applied
+            tryRedrawGallery(Math.floor(containerWidthBefore), $items, options);
 
             var containerWidthAfter = getContainerWidth($container);
             containerWidths.push(containerWidthAfter);
@@ -658,7 +659,7 @@ jpictura.core.heightCalculator = function (getItemsWidthForHeightFunc, logFunc, 
     }
 
     function getContainerWidth($container) {
-        return $container.width();
+        return parseFloat(window.getComputedStyle($container[0], null).getPropertyValue('width'));
     }
 
     function log(message) {
