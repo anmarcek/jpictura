@@ -1,3 +1,22 @@
+/*!
+ * jPictura v1.2.3
+ * https://github.com/anmarcek/jpictura.git
+ *
+ * Copyright (c) 2015-2017 Anton Marček
+ * Released under the MIT license
+ *
+ * Date: 2017-01-17T12:57:24.900Z
+ */
+
+/*!
+ * jPictura Core v0.1.8
+ * https://github.com/anmarcek/jpictura-core.git
+ *
+ * Copyright (c) 2015-2017 Anton Marček
+ * Released under the MIT license
+ *
+ * Date: 2017-01-17T12:21:13.700Z
+ */
 .jpictura:after {
   visibility: hidden;
   display: block;
@@ -82,3 +101,4 @@
     opacity: 1;
   }
 }
+

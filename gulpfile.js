@@ -11,8 +11,12 @@ var paths = {
             'node_modules/jpictura-core/dist/jpictura-core.js',
             'src/js/jpictura.js'
         ],
-        css: 'src/css',
-        less: 'src/css/less/**/*.less'
+        less: [
+            'src/css/less/disclaimer.less',
+            'node_modules/jpictura-core/dist/css/jpictura-core.css',
+            'src/css/less/main.less'
+        ],
+        cssRoot: 'src/css'
     },
     dist: {
         root: 'dist',
@@ -27,15 +31,8 @@ gulp.task('watch', function () {
     gulp.watch(paths.src.less, { interval: 500 }, ['clean', 'copy-css', 'copy-css']);
 });
 
-gulp.task('release', ['zip'], function (callback) {
+gulp.task('release', ['js', 'css'], function (callback) {
     callback();
-});
-
-gulp.task('zip', ['js', 'css'], function () {
-    return gulp
-        .src(paths.dist.root + '/**')
-        .pipe(plugins.zip(pkg.name + '.zip'))
-        .pipe(gulp.dest(paths.root));
 });
 
 gulp.task('js', ['clean', 'copy-js'], function () {
@@ -60,33 +57,41 @@ gulp.task('copy-js', function () {
     return gulp
         .src(paths.src.js)
         .pipe(plugins.concat({ path: pkg.name + '.js' }))
-        .pipe(plugins.replace(/@\w+/g, function (placeholder) {
-            switch (placeholder) {
-                case '@VERSION':
-                    placeholder = pkg.version;
-                    break;
-                case '@YEAR':
-                    placeholder = (new Date()).getFullYear();
-                    break;
-                case '@DATE':
-                    placeholder = (new Date()).toISOString();
-                    break;
-            }
-            return placeholder;
-        }))
+        .pipe(plugins.replace(/@\w+/g, replacePlaceholder))
         .pipe(gulp.dest(paths.dist.root));
 });
 
 gulp.task('copy-css', function () {
     return gulp
         .src(paths.src.less)
+        .pipe(plugins.replace(/@\w+/g, replacePlaceholder))
         .pipe(plugins.less())
-        .pipe(gulp.dest(paths.src.css))
+        .pipe(gulp.dest(paths.src.cssRoot))
         .pipe(plugins.concat({ path: pkg.name + '.css' }))
         .pipe(gulp.dest(paths.dist.css));
 });
 
 gulp.task('clean', function (callback) {
-    del.sync([paths.dist.root + '**/*']);
+    del.sync([
+        paths.dist.root + '**/*',
+        paths.src.cssRoot + '/**',
+        '!' + paths.src.cssRoot,
+        '!' + paths.src.cssRoot + '/less/**'
+    ]);
     callback();
 });
+
+function replacePlaceholder(placeholder) {
+    switch (placeholder) {
+        case '@VERSION':
+            placeholder = pkg.version;
+            break;
+        case '@YEAR':
+            placeholder = (new Date()).getFullYear();
+            break;
+        case '@DATE':
+            placeholder = (new Date()).toISOString();
+            break;
+    }
+    return placeholder;
+}

@@ -2,19 +2,19 @@
  * jPictura v1.2.3
  * https://github.com/anmarcek/jpictura.git
  *
- * Copyright (c) 2015-2016 Anton Marček
+ * Copyright (c) 2015-2017 Anton Marček
  * Released under the MIT license
  *
- * Date: 2016-08-11T14:33:12.122Z
+ * Date: 2017-01-17T12:57:24.927Z
  */
 /*!
- * jPictura Core v0.1.4
+ * jPictura Core v0.1.8
  * https://github.com/anmarcek/jpictura-core.git
  *
- * Copyright (c) 2015-2016 Anton Marček
+ * Copyright (c) 2015-2017 Anton Marček
  * Released under the MIT license
  *
- * Date: 2016-08-10T08:36:14.607Z
+ * Date: 2017-01-17T12:21:13.731Z
  */
 var jpictura = {
     core: {
@@ -158,8 +158,6 @@ jpictura.core.heightCalculator = function (getItemsWidthForHeightFunc, logFunc, 
     }
 };
 
-//TODO AnMa Important: Update the readme file.
-//TODO AnMa Important: Add show code functionality to demo page.
 //TODO AnMa Important: Add angular and polymer support and split the solution.
 //TODO AnMa Important: Check the height calculation algorithm, its precision and improve performance.
 (function ($) {
