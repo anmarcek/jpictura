@@ -16,7 +16,7 @@ var paths = {
             'node_modules/jpictura-core/dist/css/jpictura-core.css',
             'src/css/less/main.less'
         ],
-        cssRoot: 'src/css'
+        cssRoot: 'src/css' 
     },
     dist: {
         root: 'dist',
