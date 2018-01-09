@@ -1,7 +1,7 @@
 ﻿![jPictura](/docs/logo.png)
 
 ***
-
+ 
 jPictura is a simple jQuery plugin for responsive alignment of images.
 
 ## Table of contents
