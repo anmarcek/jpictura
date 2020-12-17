@@ -105,7 +105,7 @@
 
             var image = new Image();
             image.src = $image.attr('src');
-            $(image).load(function () {
+            $(image).on('load', function () {
                 imageLoadedCallback($item, image);
             });
         });
@@ -114,7 +114,7 @@
             var ratio = image.width / image.height;
             setItemWidthHeightRatio($item, ratio);
 
-            if (++loadedImagesCount === $items.size()) {
+            if (++loadedImagesCount === $items.length) {
                 callback($container, $items, options);
             }
         }
