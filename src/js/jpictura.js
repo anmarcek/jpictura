@@ -166,8 +166,8 @@
         var containerWidths = [];
 
         do {
-            $items.addClass(options.classes.invisible);
-            $items.addClass(options.classes.hidden);
+            // $items.addClass(options.classes.invisible);
+            // $items.addClass(options.classes.hidden);
 
             var containerWidthBefore = getContainerWidth($container);
             containerWidths.push(containerWidthBefore);
@@ -224,6 +224,12 @@
         return nameInLowerCase + '-redraw-progress';
     }
 
+    function toggleHidden(item, callback) {
+        $(item).addClass(options.classes.hidden);
+        callback();
+        $(item).removeClass(options.classes.hidden);
+    }
+
     function tryRedrawGallery(availableWidth, $items, options) {
         var row = [];
         var rowWidth = availableWidth - 2 * options.layout.rowPadding;
@@ -233,24 +239,24 @@
             var $item = $(this);
 
             if (row.length === 0) {
-                row.push($item);
+                toggleHidden($item, function() { row.push($item); });
             } else {
                 var rowWithNewItem = row.slice(0);
-                rowWithNewItem.push($item);
+                toggleHidden($item, function() { rowWithNewItem.push($item); });
 
                 if (!rowIsFull(rowWithNewItem, rowWidth, options)) {
-                    row.push($item);
+                    toggleHidden($item, function() { row.push($item); });
                 } else {
                     var currentRowHeight = getRowHeight(row, rowWidth, heightCalculator, options);
                     var rowWithNewItemHeight = getRowHeight(rowWithNewItem, rowWidth, heightCalculator, options);
                     var currentRowPenalty = $.fn.jpictura.evaluate(currentRowHeight, options);
                     var rowWithNewItemPenalty = $.fn.jpictura.evaluate(rowWithNewItemHeight, options);
                     if (currentRowPenalty > rowWithNewItemPenalty) {
-                        row.push($item);
+                        toggleHidden($item, function() { row.push($item); });
                     } else {
                         revealRow(row, rowWidth, currentRowHeight, false, options);
                         row = [];
-                        row.push($item);
+                        toggleHidden($item, function() { row.push($item); });
                     }
                 }
             }
