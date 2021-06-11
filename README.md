@@ -183,7 +183,7 @@ CSS classes that are automatically applied by the plugin to specific elements.
 
 Specifies the amount of blank space at the start and at the end of each row.
 
-![Test](/docs/gallery-2.png)
+![Test](docs/gallery-2.png)
 
 ```javascript
 $(document).ready(function(){
@@ -199,7 +199,7 @@ The row padding is achieved by applying margin to the gallery items. The propert
 
 Specifies the amount of blank space between the gallery items.
 
-![Test](/docs/gallery-3.png)
+![Test](docs/gallery-3.png)
 
 ```javascript
 $(document).ready(function(){
@@ -215,7 +215,7 @@ The spacing is achieved by applying margin to the gallery items. The property is
 
 The desired row height. The application will try to arrange the gallery item so the heights of the rows are as close as possible to the `layout.idealRowHeight` value.
 
-![Test](/docs/gallery-4.png)
+![Test](docs/gallery-4.png)
 
 ```javascript
 $(document).ready(function(){
